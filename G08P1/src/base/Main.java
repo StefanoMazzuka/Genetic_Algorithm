@@ -51,7 +51,7 @@ public class Main {
 			System.out.println(f[i]);
 			System.out.println();
 		}
-		
+		borrar
 		UnPunto cruce = new UnPunto(0.7, funcion1);
 		cruce.showCruzados();
 
