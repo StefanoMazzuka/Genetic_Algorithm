@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -23,10 +24,10 @@ public class Menu extends JFrame {
 
 	private int tamañoPoblacion;
 	private double numeroGeneraciones;
-	private int porcentageCruce;
-	private int porcentageMutacion;
-	private int precision;
-	private int elitismo;
+	private double porcentageCruce;
+	private double porcentageMutacion;
+	private double precision;
+	private boolean elitismo;
 	
 	public Menu() {
 		JTextField tamPob = new JTextField();
@@ -34,7 +35,8 @@ public class Menu extends JFrame {
 		JTextField porCruce = new JTextField();
 		JTextField porMuta = new JTextField();
 		JTextField preci = new JTextField();
-		JTextField eli = new JTextField();
+		JCheckBox eliY = new JCheckBox("si", false);
+		JCheckBox eliN = new JCheckBox("no", false);
 		JLabel empty = new JLabel();
 		JButton ok = new JButton("Ok");
 		
@@ -42,6 +44,10 @@ public class Menu extends JFrame {
 		setLocationRelativeTo(null); 
 		setTitle("Algorithm A*"); 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Terminar el programa al pulsar la X
+		
+		JPanel checkBoxPanel = new JPanel(new GridLayout(1, 2));
+		checkBoxPanel.add(eliY);
+		checkBoxPanel.add(eliN);
 		
 		JPanel menuPanel = new JPanel(new GridLayout(7, 2));
 		menuPanel.add(new JLabel("Tamaño poblacion:"));
@@ -54,8 +60,8 @@ public class Menu extends JFrame {
 		menuPanel.add(porMuta);
 		menuPanel.add(new JLabel("Precision:"));
 		menuPanel.add(preci);
-		menuPanel.add(new JLabel("Elitismo y/n:"));
-		menuPanel.add(eli);
+		menuPanel.add(new JLabel("Elitismo:"));
+		menuPanel.add(checkBoxPanel);
 		menuPanel.add(empty);
 		menuPanel.add(ok);
 		
@@ -69,13 +75,13 @@ public class Menu extends JFrame {
 				// TODO Auto-generated method stub
 				tamañoPoblacion = Integer.parseInt(tamPob.getText());
 				numeroGeneraciones = Double.parseDouble(numGen.getText());
-				porcentageCruce = Integer.parseInt(porCruce.getText());
+				porcentageCruce = Double.parseDouble(porCruce.getText());
 				porcentageMutacion = Integer.parseInt(porMuta.getText());
-				precision = Integer.parseInt(preci.getText());
-				elitismo = Integer.parseInt(eli.getText());
+				precision = Double.parseDouble(preci.getText());
+					
+				//eliY.get
 				
-				Funcion1 funcion1 = new Funcion1(tamañoPoblacion, numeroGeneraciones, 0, 32);
-				
+				Funcion1 funcion1 = new Funcion1(tamañoPoblacion, precision, 0, 32);
 					
 				ArrayList<Gen> p = funcion1.getPoblacion();
 				double[] f = funcion1.getFenotipo();
@@ -97,9 +103,9 @@ public class Menu extends JFrame {
 					System.out.println();
 				}
 				
-				UnPunto cruce = new UnPunto(0.7, funcion1);
+				UnPunto cruce = new UnPunto(porcentageCruce, funcion1);
 				cruce.showCruzados();
-				Mutacion mutacion1 = new Mutacion(0.02, funcion1);
+				Mutacion mutacion1 = new Mutacion(porcentageMutacion, funcion1);
 				System.out.println();
 
 				p = funcion1.getPoblacion();
@@ -116,8 +122,7 @@ public class Menu extends JFrame {
 					System.out.println();
 					System.out.println(f[i]);
 					System.out.println();
-				}
-					
+				}	
 			}
 		});	
 	}
@@ -127,16 +132,13 @@ public class Menu extends JFrame {
 	public double getNumeroGeneraciones() {
 		return numeroGeneraciones;
 	}
-	public int getPorcentageCruce() {
+	public double getPorcentageCruce() {
 		return porcentageCruce;
 	}
-	public int getPorcentageMutacion() {
+	public double getPorcentageMutacion() {
 		return porcentageMutacion;
 	}
-	public int getPrecision() {
+	public double getPrecision() {
 		return precision;
-	}
-	public int getElitismo() {
-		return elitismo;
 	}
 }
