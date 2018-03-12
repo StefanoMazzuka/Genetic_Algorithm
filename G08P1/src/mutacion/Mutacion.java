@@ -24,7 +24,6 @@ public class Mutacion {
 			}
 			
 			if (mutado) {
-				System.out.println("El gen mutado es: " + (i + 1));
 				pob.get(i).setAlelos(gen);
 			}
 		}

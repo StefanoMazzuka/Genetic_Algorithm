@@ -72,7 +72,7 @@ public abstract class Poblacion {
 	/*Getters and Setters*/
 	
 	public double[] getFenotipo() {
-		return fenotipo;
+		return this.fenotipo;
 	}
 	/*public void setFenotipo(double[] fenotipo) {
 		this.fenotipo = fenotipo;

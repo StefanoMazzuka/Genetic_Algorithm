@@ -50,7 +50,6 @@ public class UnPunto {
 					interAcumulado += intervalo;
 				}
 			}
-			System.out.println(pos);
 			cruzarGenes(pos, poblacionACruzar.get(i), poblacionACruzar.get(i + 1));
 		}
 	}
