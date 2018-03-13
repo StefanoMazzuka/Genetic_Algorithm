@@ -32,8 +32,8 @@ public class Menu extends JFrame {
 	private Gen genMejor;
 
 	public Menu() {
-		JTextField tamPob = new JTextField("100");
-		JTextField numGen = new JTextField("100");
+		JTextField tamPob = new JTextField("10");
+		JTextField numGen = new JTextField("10");
 		JTextField porCruce = new JTextField("0.6");
 		JTextField porMuta = new JTextField("0.05");
 		JTextField preci = new JTextField("0.001");
@@ -130,45 +130,24 @@ public class Menu extends JFrame {
 						genMejor = funcion1.getGenMejor();
 
 						for (int i = 0; i < numeroGeneraciones; i++) {	
-							r = new Ruleta(funcion1, funcion1.getFitness());
-							cruce = new UnPunto(porcentageCruce, funcion1);
-							mutacion1 = new Mutacion(porcentageMutacion, funcion1);
+//							r = new Ruleta(funcion1, funcion1.getFitness());
+//							cruce = new UnPunto(porcentageCruce, funcion1);
+//							mutacion1 = new Mutacion(porcentageMutacion, funcion1);
 							
-							/*Antes de calcular el nuevo gen mejor*/
-//							System.out.println("Antes " + i);
-//							for (int j = 0; j < tamañoPoblacion; j++) {				
-//								boolean[] ptotal = p.get(j).getAlelos();		
-//								for (int k = 0; k < ptotal.length; k++) {
-//									if(ptotal[k] == true) System.out.print(1);
-//									else System.out.print(0);
-//								}
-//								System.out.println();
-//								System.out.println(f[j]);
-//								System.out.println();
-//							}
-							
-							
+							System.out.println("Vuelta: " + i);
+							funcion1.showPoblacion();
 							funcion1.calcularFenotipos();
 							funcion1.calcularFitness();
+							funcion1.showFitness();
+							System.out.println("----------------------");
 							funcion1.setGenMejor(genMejor);
 							funcion1.calcularGenMejor();
 							genMejor = funcion1.getGenMejor();
-							p = funcion1.getPoblacion();
-							f = funcion1.getFitness();
+//							
 							
 							/*Despues de calcular el gen mejor*/
-							System.out.println("Depues de calcular el gen mejor:");
-							System.out.println(i);
-							for (int k = 0; k < tamañoPoblacion; k++) {				
-								boolean[] ptotal = p.get(k).getAlelos();		
-								for (int j = 0; j < ptotal.length; j++) {
-									if(ptotal[j] == true) System.out.print(1);
-									else System.out.print(0);
-								}
-								System.out.println();
-								System.out.println(f[k]);
-								System.out.println();
-							}
+							
+							
 						}
 					}
 				} 

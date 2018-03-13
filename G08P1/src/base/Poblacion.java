@@ -76,7 +76,7 @@ public abstract class Poblacion {
 			}	
 		}
 		
-		System.out.println("EL FITNESS MEJOR ES:   " + mejorFitness +", Pos: "+ pos);
+		System.out.print("EL FITNESS MEJOR ES: " + mejorFitness +", Pos: "+ pos + ", Gen: ");
 		boolean[] x = genMejor.getAlelos();
 		for (int j = 0; j < x.length; j++) {
 			if(x[j] == true) System.out.print(1);
@@ -93,14 +93,30 @@ public abstract class Poblacion {
 				genPeor = i;
 			}
 		}
-		System.out.println("EL FITNESS PEOR ES:   " + peorFitness +", Pos: " + this.genPeor);
-		System.out.println();
+		System.out.println("EL FITNESS PEOR ES: " + peorFitness +", Pos: " + this.genPeor);
 	}
 	public void setGenMejor(Gen gen) {
 		calcularGenPeor();
 		System.out.println("Vamos a sustituir en: " + this.genPeor);
 		this.poblacion.set(genPeor, gen);
 	}
+	public void showFitness() {
+		for (int i = 0; i < this.fitness.length; i++) {
+			System.out.println(this.fitness[i]);
+		}
+	}
+	public void showPoblacion() {
+		boolean[] alelos;
+		for (int i = 0; i < this.longitudPob; i++) {
+			alelos = this.poblacion.get(i).getAlelos();
+			for (int j = 0; j < this.lgen; j++) {
+				if (alelos[j] == true) System.out.print(1);
+				else System.out.print(0);
+			}
+			System.out.println();
+		}
+	}
+	
 	
 	/*Getters and Setters*/
 	

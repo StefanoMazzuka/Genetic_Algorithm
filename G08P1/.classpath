@@ -6,6 +6,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/hlocal/git/Genetic-Algorithm/G08P1/jmathplot.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Stefano Mazzuka/git/Genetic-Algorithm/G08P1/jmathplot.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

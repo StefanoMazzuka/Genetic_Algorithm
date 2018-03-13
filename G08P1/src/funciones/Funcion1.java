@@ -22,17 +22,11 @@ public class Funcion1 extends Poblacion{
 
 	public void calcularFitness() {
 		double[] fenotipo = getFenotipo();
-		ArrayList<Gen> pob = getPoblacion();
 		for (int i = 0; i < getLongitudPob(); i++) {
 			this.fitness[i] = 20 + Math.E - 20 * 
 					Math.pow(Math.E, (-0.2 * Math.abs(fenotipo[i]))) - 
 					Math.pow(Math.E, Math.cos(2 * Math.PI * fenotipo[i]));
 		}
-	}
-
-	public void showFitness() {
-		for (int i = 0; i < fitness.length; i++) {
-			System.out.println(this.fitness[i]);
-		}
+		setFitness(this.fitness);
 	}
 }
