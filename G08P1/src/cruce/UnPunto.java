@@ -13,13 +13,8 @@ public class UnPunto {
 	private ArrayList<Gen> poblacionACruzar;
 	private ArrayList<Gen> poblacionCruzada;
 
-	public UnPunto(double pCruce, Poblacion poblacion){
-		longitudGen = (int) poblacion.getLgen();
+	public UnPunto(double pCruce) {
 		this.pCruce = pCruce;
-		this.poblacion = poblacion.getPoblacion();
-		this.poblacionACruzar = new ArrayList<Gen>();
-		this.poblacionCruzada = new ArrayList<Gen>();
-		cruzar(); // QUITAR!!!
 	}
 
 	public void cualCruza() {
@@ -34,8 +29,15 @@ public class UnPunto {
 			this.poblacionACruzar.remove(0);
 	}
 
-	public void cruzar() {
+	public void cruzar(Poblacion poblacion) {
+		
+		longitudGen = (int) poblacion.getLgen();	
+		this.poblacion = poblacion.getPoblacion();
+		this.poblacionACruzar = new ArrayList<Gen>();
+		this.poblacionCruzada = new ArrayList<Gen>();
+		
 		cualCruza();
+		
 		double intervalo = (1.0 / longitudGen);
 		double interAcumulado = intervalo;
 		double pe = 0;

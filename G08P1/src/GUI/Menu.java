@@ -1,5 +1,6 @@
 package GUI;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -25,12 +26,14 @@ import seleccion.Ruleta;
 public class Menu extends JFrame {
 
 	private int tamañoPoblacion;
-	private double numeroGeneraciones;
+	private int numeroGeneraciones;
 	private double porcentageCruce;
 	private double porcentageMutacion;
 	private double precision;
 	private Gen genMejor;
-
+	private double[] generacion;
+	private double[] mejoresFitness;
+	
 	public Menu() {
 		JTextField tamPob = new JTextField("10");
 		JTextField numGen = new JTextField("10");
@@ -50,6 +53,7 @@ public class Menu extends JFrame {
 		JPanel checkBoxPanel = new JPanel(new GridLayout(1, 2));
 		checkBoxPanel.add(eliY);
 		checkBoxPanel.add(eliN);
+		eliN.setSelected(true);
 
 		/*Menu Panel*/
 		JPanel menuPanel = new JPanel(new GridLayout(7, 2));
@@ -69,21 +73,18 @@ public class Menu extends JFrame {
 		menuPanel.add(ok);
 
 		/*Grafica Panel*/
-		double[] x = { 1, 2, 3, 4, 5, 6 };
-		double[] y = { 45, 89, 6, 32, 63, 12 };
 
 		// create your PlotPanel (you can use it as a JPanel)
-		Plot2DPanel plot = new Plot2DPanel();
+		Plot2DPanel grafica = new Plot2DPanel();
 
 		// define the legend position
-		plot.addLegend("SOUTH");
+		grafica.addLegend("SOUTH");
 
 		// add a line plot to the PlotPanel
-		plot.addLinePlot("my plot", x, y);
 
-		setLayout(new GridLayout(1, 2));
-		add(menuPanel);
-		add(plot);
+		setLayout(new BorderLayout());
+		add(menuPanel, BorderLayout.WEST);
+		add(grafica, BorderLayout.CENTER);
 		pack();
 
 		ok.addActionListener(new ActionListener() {
@@ -100,7 +101,7 @@ public class Menu extends JFrame {
 				else {
 
 					tamañoPoblacion = Integer.parseInt(tamPob.getText());
-					numeroGeneraciones = Double.parseDouble(numGen.getText());
+					numeroGeneraciones = Integer.parseInt(numGen.getText());
 					porcentageCruce = Double.parseDouble(porCruce.getText());
 					porcentageMutacion = Double.parseDouble(porMuta.getText());
 					precision = Double.parseDouble(preci.getText());
@@ -119,49 +120,56 @@ public class Menu extends JFrame {
 
 					else if (eliY.isSelected() == false && eliN.isSelected() == true) {
 						
-						Funcion1 funcion1 = new Funcion1(tamañoPoblacion, precision, 0, 32);
-						Ruleta r;
-						UnPunto cruce;
-						Mutacion mutacion1;			
+						generacion = new double[numeroGeneraciones];
+						mejoresFitness = new double[numeroGeneraciones];
 						
-						ArrayList<Gen> p = funcion1.getPoblacion();
-						double[] f = funcion1.getFitness();
+						Funcion1 funcion1 = new Funcion1(tamañoPoblacion, precision, 0, 32);
+						Ruleta r = new Ruleta();
+						UnPunto cruce = new UnPunto(porcentageCruce);
+						Mutacion mutacion = new Mutacion(porcentageMutacion);
+						
 						funcion1.calcularGenMejor();
 						genMejor = funcion1.getGenMejor();
 
+						int posGenMejor = 0;
 						for (int i = 0; i < numeroGeneraciones; i++) {	
-//							r = new Ruleta(funcion1, funcion1.getFitness());
-//							cruce = new UnPunto(porcentageCruce, funcion1);
-//							mutacion1 = new Mutacion(porcentageMutacion, funcion1);
-							
+							r.ejecutarRuleta(funcion1);  
+							cruce.cruzar(funcion1);
+							//mutacion.mutar(funcion1);
+											
 							System.out.println("Vuelta: " + i);
 							funcion1.showPoblacion();
 							funcion1.calcularFenotipos();
-							funcion1.calcularFitness();
+							funcion1.calcularFitness();	
 							funcion1.showFitness();
-							System.out.println("----------------------");
+							
+//							System.out.println("----------------------");
 							funcion1.setGenMejor(genMejor);
 							funcion1.calcularGenMejor();
-							genMejor = funcion1.getGenMejor();							
+							genMejor = funcion1.getGenMejor();
+							funcion1.calcularFenotipos();
+							funcion1.calcularFitness();
+							
+							posGenMejor = funcion1.getPosGenMejor();
+							
+							generacion[i] = i;						
+							mejoresFitness[i] = funcion1.getFitness()[posGenMejor];
 						}
+						
+						grafica.setVisible(false);
+						pintarGrafica(grafica, generacion, mejoresFitness);
 					}
 				} 
 			}
 		});	
 	}
-	public int getTamañoPoblacion() {
-		return tamañoPoblacion;
-	}
-	public double getNumeroGeneraciones() {
-		return numeroGeneraciones;
-	}
-	public double getPorcentageCruce() {
-		return porcentageCruce;
-	}
-	public double getPorcentageMutacion() {
-		return porcentageMutacion;
-	}
-	public double getPrecision() {
-		return precision;
+	
+	public void pintarGrafica(Plot2DPanel grafica, double[] x, double[] y) {
+		// define the legend position
+		grafica.addLegend("SOUTH");
+		// add a line plot to the PlotPanel
+		grafica.addLinePlot("my plot", x, y);		
+		add(grafica, BorderLayout.CENTER);	
+		grafica.setVisible(true);
 	}
 }

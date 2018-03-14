@@ -11,29 +11,34 @@ public class Ruleta {
 	private ArrayList<Gen> pobSeleccionada;
 	private ArrayList<Gen> pobInicial;
 	private double[] puntuacion;
-	private double[] fitness;
+	private double[] fitnessR;
+	private double fitnessTotal;
 	private double[] punt_acum;
 	private int[] seleccionados;
-	private double fitnessTotal;
 	
-	public Ruleta(Poblacion poblacion, double[] fitness) {
-		this.pobInicial = poblacion.getPoblacion();
+	public Ruleta() {
+		
+	}
+	
+	public void ejecutarRuleta(Poblacion pob) {
+		
 		this.pobSeleccionada = new ArrayList<Gen>();
-		this.puntuacion = new double[poblacion.getLongitudPob()];
-		this.fitness = fitness;
+		this.pobInicial = pob.getPoblacion();
+		this.puntuacion = new double[pob.getLongitudPob()];
 		this.fitnessTotal = 0;
-		this.punt_acum = new double[poblacion.getLongitudPob() + 1];
+		this.punt_acum = new double[pob.getLongitudPob() + 1];
 		Arrays.fill(this.punt_acum, 0);
-		this.seleccionados = new int[poblacion.getLongitudPob()];
+		this.seleccionados = new int[pob.getLongitudPob()];
 		Arrays.fill(this.seleccionados, 0);
 		
-		for (int i = 0; i < poblacion.getLongitudPob(); i++) {
-			this.fitnessTotal += fitness[i];
+		this.fitnessR = pob.getFitness();
+		for (int i = 0; i < pob.getLongitudPob(); i++) {
+			this.fitnessTotal += this.fitnessR[i];
 		}
 		
 		calcularPuntuaciones();
 		
-		for (int i = 0; i < poblacion.getLongitudPob(); i++) {
+		for (int i = 0; i < pob.getLongitudPob(); i++) {
 			if (this.seleccionados[i] != 0) {
 				for (int j = 0; j < this.seleccionados[i]; j++) {
 					this.pobSeleccionada.add(pobInicial.get(i));
@@ -41,12 +46,12 @@ public class Ruleta {
 			}
 		}
 		
-		poblacion.setPoblacion(pobSeleccionada);
+		pob.setPoblacion(pobSeleccionada);
 	}
 	
 	private void calcularPuntuaciones() {		
-		for (int i = 0; i < this.fitness.length; i++) {
-			this.puntuacion[i] = this.fitness[i] / this.fitnessTotal;		
+		for (int i = 0; i < this.fitnessR.length; i++) {
+			this.puntuacion[i] = this.fitnessR[i] / this.fitnessTotal;		
 		}
 		 
 		double cont = 0;
@@ -56,7 +61,7 @@ public class Ruleta {
 		}
 		
 		double rand;
-		for (int i = 0; i < this.fitness.length; i++) {
+		for (int i = 0; i < this.fitnessR.length; i++) {
 			int j = 0;
 			rand = Math.random();
 			while (rand > this.punt_acum[j]) {
@@ -67,7 +72,7 @@ public class Ruleta {
 	}
 	
 	public void showSeleccionados() {
-		for (int i = 0; i < this.fitness.length; i++) {
+		for (int i = 0; i < this.fitnessR.length; i++) {
 			System.out.println(this.seleccionados[i]);
 		}
 	}

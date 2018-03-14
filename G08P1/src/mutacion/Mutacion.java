@@ -6,7 +6,15 @@ import base.Gen;
 import base.Poblacion;
 
 public class Mutacion {
-	public Mutacion(double probMutacion, Poblacion poblacion) {
+	private double probMutacion;
+	
+	public Mutacion(double probMutacion) {
+		this.probMutacion = probMutacion;
+	}
+	
+	
+	public void mutar (Poblacion poblacion){
+		
 		boolean mutado;
 		ArrayList<Gen> pob = poblacion.getPoblacion();
 		for (int i = 0; i < poblacion.getLongitudPob(); i++) {

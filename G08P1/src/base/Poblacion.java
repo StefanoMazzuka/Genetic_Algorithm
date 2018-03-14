@@ -16,7 +16,9 @@ public abstract class Poblacion {
 	private Gen genMejor;
 	private int genPeor;
 	private double[] fitness;
-
+    private int MAXABSOLUTO = Integer.MAX_VALUE;
+    private int posGenMejor;
+    
 	public Poblacion(int longitud, double tolerancia, double max, double min) {
 		super();
 		
@@ -47,8 +49,7 @@ public abstract class Poblacion {
 			this.fenotipo[i] = valor;
 		}
 	}
-	private double bin_dec(Gen gen) {
-		
+	private double bin_dec(Gen gen) {		
 		double dec = 0;
 		boolean[] alelos = gen.getAlelos();
 		for(int i = 0; i < lgen; i++) {
@@ -66,7 +67,7 @@ public abstract class Poblacion {
 	}
 	
 	public void calcularGenMejor() {
-		double mejorFitness = 0;
+		double mejorFitness = 0.00000000000000000000;
 		int pos = 0;
 		for (int i = 0; i < this.fitness.length; i++) {
 			if (mejorFitness < this.fitness[i]) {
@@ -76,7 +77,8 @@ public abstract class Poblacion {
 			}	
 		}
 		
-		System.out.print("EL FITNESS MEJOR ES: " + mejorFitness +", Pos: "+ pos + ", Gen: ");
+		this.posGenMejor = pos;	
+		System.out.print("EL FITNESS MEJOR ES: " + mejorFitness +", Pos: "+ this.posGenMejor + ", Gen: ");
 		boolean[] x = genMejor.getAlelos();
 		for (int j = 0; j < x.length; j++) {
 			if(x[j] == true) System.out.print(1);
@@ -86,7 +88,7 @@ public abstract class Poblacion {
 	}
 
 	public void calcularGenPeor() {
-		double peorFitness = this.fitness[0];
+		double peorFitness = MAXABSOLUTO;
 		for (int i = 0; i < this.fitness.length; i++) {
 			if (peorFitness > this.fitness[i]) {
 				peorFitness = this.fitness[i];
@@ -149,5 +151,8 @@ public abstract class Poblacion {
 	}
 	public double[] getFitness() {
 		return fitness;
+	}
+	public int getPosGenMejor() {
+		return this.posGenMejor;
 	}
 }
