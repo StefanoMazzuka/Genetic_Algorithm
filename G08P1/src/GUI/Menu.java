@@ -142,12 +142,7 @@ public class Menu extends JFrame {
 							System.out.println("----------------------");
 							funcion1.setGenMejor(genMejor);
 							funcion1.calcularGenMejor();
-							genMejor = funcion1.getGenMejor();
-//							
-							
-							/*Despues de calcular el gen mejor*/
-							
-							
+							genMejor = funcion1.getGenMejor();							
 						}
 					}
 				} 
