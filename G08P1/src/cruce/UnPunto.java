@@ -17,7 +17,11 @@ public class UnPunto {
 
 	public UnPunto(double pCruce) {
 		this.pCruce = pCruce;
+		poblacionACruzar = new ArrayList<Gen>();
+		poblacionCruzada = new ArrayList<Gen>();
 		
+		individuosACruzar = new int[100];
+		Arrays.fill(this.individuosACruzar, 0);
 	}
 
 	public void cualCruza() {

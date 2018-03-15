@@ -143,8 +143,14 @@ public class Menu extends JFrame {
 						funcion1.showFitness();
 
 						/*Ejecutar el cruce*/
-						cruce.cruzar(funcion1);
-						cruce.showCruzados();
+//						cruce.cruzar(funcion1);
+//						cruce.showCruzados();
+//						funcion1.calcularFenotipos();
+//						funcion1.calcularFitness();
+//						funcion1.showPoblacion();
+//						funcion1.showFitness();
+						
+						mutacion.mutar(funcion1);
 						funcion1.calcularFenotipos();
 						funcion1.calcularFitness();
 						funcion1.showPoblacion();

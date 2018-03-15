@@ -16,7 +16,8 @@ public class Mutacion {
 	public void mutar (Poblacion poblacion){
 		
 		boolean mutado;
-		ArrayList<Gen> pob = poblacion.getPoblacion();
+		ArrayList<Gen> pob = new ArrayList<Gen>();
+		pob = poblacion.getPoblacion();
 		for (int i = 0; i < poblacion.getLongitudPob(); i++) {
 			mutado = false;
 			boolean[] gen = pob.get(i).getAlelos();
