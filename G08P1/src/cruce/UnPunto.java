@@ -60,8 +60,19 @@ public class UnPunto {
 			}
 		}
 		if (this.poblacionACruzar.size() % 2 != 0) {
-			this.poblacionACruzar.remove(0);
-			this.individuosACruzar[0] = false;
+			int i=0;
+			boolean encontrado = false;
+			while (i < individuosACruzar.length && !encontrado) {
+				if(poblacionACruzar.get(0) == poblacion.get(i)) {
+					this.poblacionACruzar.remove(0);
+					this.individuosACruzar[i] = false;
+					encontrado=true;
+				}
+				else i++;
+			}
+			
+			
+			
 		} 
 	}
 	

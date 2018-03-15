@@ -25,7 +25,7 @@ import seleccion.Ruleta;
 
 public class Menu extends JFrame {
 
-	private int tamañoPoblacion;
+	private int tamaÃ±oPoblacion;
 	private int numeroGeneraciones;
 	private double porcentageCruce;
 	private double porcentageMutacion;
@@ -57,7 +57,7 @@ public class Menu extends JFrame {
 
 		/*Menu Panel*/
 		JPanel menuPanel = new JPanel(new GridLayout(7, 2));
-		menuPanel.add(new JLabel("Tamaño poblacion:"));
+		menuPanel.add(new JLabel("Tamaï¿½o poblacion:"));
 		menuPanel.add(tamPob);
 		menuPanel.add(new JLabel("Numero de generaciones:"));
 		menuPanel.add(numGen);
@@ -100,7 +100,7 @@ public class Menu extends JFrame {
 
 				else {
 
-					tamañoPoblacion = Integer.parseInt(tamPob.getText());
+					tamaÃ±oPoblacion = Integer.parseInt(tamPob.getText());
 					numeroGeneraciones = Integer.parseInt(numGen.getText());
 					porcentageCruce = Double.parseDouble(porCruce.getText());
 					porcentageMutacion = Double.parseDouble(porMuta.getText());
@@ -123,7 +123,7 @@ public class Menu extends JFrame {
 						generacion = new double[numeroGeneraciones];
 						mejoresFitness = new double[numeroGeneraciones];
 						
-						Funcion1 funcion1 = new Funcion1(tamañoPoblacion, precision, 0, 32);
+						Funcion1 funcion1 = new Funcion1(tamaÃ±oPoblacion, precision, 0, 32);
 						Ruleta r = new Ruleta();
 						UnPunto cruce = new UnPunto(porcentageCruce);
 						Mutacion mutacion = new Mutacion(porcentageMutacion);
