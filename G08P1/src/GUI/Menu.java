@@ -150,7 +150,7 @@ public class Menu extends JFrame {
 						funcion1.showPoblacion();
 						funcion1.showFitness();
 						
-						int posGenMejor = 0;
+//						int posGenMejor = 0;
 //						for (int i = 0; i < numeroGeneraciones; i++) {	
 //							r.ejecutarRuleta(funcion1);  
 //							cruce.cruzar(funcion1);

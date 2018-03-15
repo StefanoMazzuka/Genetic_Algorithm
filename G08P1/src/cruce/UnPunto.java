@@ -10,34 +10,20 @@ public class UnPunto {
 
 	private double pCruce;
 	private int longitudGen;
-	private int[] individuosACruzar;
+	private boolean[] individuosACruzar;
 	private ArrayList<Gen> poblacion;
 	private ArrayList<Gen> poblacionACruzar;
 	private ArrayList<Gen> poblacionCruzada;
 
 	public UnPunto(double pCruce) {
 		this.pCruce = pCruce;
-		
-	}
-
-	public void cualCruza() {
-		double pc = 0;
-		for (int i = 0; i < this.poblacion.size(); i++) {
-			pc = Math.random();
-			if (pc < pCruce) {
-				this.poblacionACruzar.add(poblacion.get(i));
-				this.individuosACruzar[i]++;
-			}
-		}
-		if (this.poblacionACruzar.size() % 2 != 0) {
-			this.poblacionACruzar.remove(0);
-		} 
 	}
 
 	public void cruzar(Poblacion pob) {
 		
-		longitudGen = (int) pob.getLgen();	
+		this.longitudGen = (int) pob.getLgen();	
 		this.poblacion = pob.getPoblacion();
+		this.individuosACruzar = new boolean[pob.getLongitudPob()];
 		this.poblacionACruzar = new ArrayList<Gen>();
 		this.poblacionCruzada = new ArrayList<Gen>();
 		
@@ -63,6 +49,22 @@ public class UnPunto {
 		pob.setPoblacion(this.poblacion);
 	}
 
+	public void cualCruza() {
+		double pc = 0;
+		for (int i = 0; i < this.poblacion.size(); i++) {
+			pc = Math.random();
+			this.individuosACruzar[i] = false;
+			if (pc < pCruce) {
+				this.poblacionACruzar.add(poblacion.get(i));
+				this.individuosACruzar[i] = true;
+			}
+		}
+		if (this.poblacionACruzar.size() % 2 != 0) {
+			this.poblacionACruzar.remove(0);
+			this.individuosACruzar[0] = false;
+		} 
+	}
+	
 	public void cruzarGenes(int pos, Gen padreUno, Gen padreDos) {
 		boolean[] hijoUno = new boolean[longitudGen];
 		boolean[] hijoDos = new boolean[longitudGen];
@@ -89,10 +91,12 @@ public class UnPunto {
 	}
 
 	public void poblacionFinal() {
-		for (int i = 0; i < poblacion.size(); i++) {
-			if (this.poblacionACruzar.contains(this.poblacion.get(i))) {
-//				this.poblacionACruzar.
-//				poblacion.set(i, this.poblacionCruzada.get(i));
+		// Cogemos la posicion CREO QUE AQUI ESTA EL ERROR.
+		int pos = 0;
+		for (int i = 0; i < this.poblacion.size(); i++) {
+			if (this.individuosACruzar[i] == true) {
+				poblacion.set(i, this.poblacionCruzada.get(pos));
+				pos++;
 			}
 		}
 	}

@@ -128,7 +128,7 @@ public abstract class Poblacion {
 		return this.poblacion;
 	}
 	public void setPoblacion(ArrayList<Gen> poblacion) {
-		this.poblacion = poblacion;
+		this.poblacion = new ArrayList<Gen>(poblacion);
 	}
 	public double getTolerancia() {
 		return tolerancia;
