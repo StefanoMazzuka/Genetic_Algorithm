@@ -72,8 +72,18 @@ public class Ruleta {
 	}
 	
 	public void showSeleccionados() {
+		System.out.println("Los seleccionados son:");
 		for (int i = 0; i < this.fitnessR.length; i++) {
 			System.out.println(this.seleccionados[i]);
+		}
+		boolean[] alelos;
+		for (int k = 0; k < this.pobSeleccionada.size(); k++) {
+			alelos = this.pobSeleccionada.get(k).getAlelos();
+			for (int j = 0; j < alelos.length; j++) {
+				if (alelos[j] == true) System.out.print(1);
+				else System.out.print(0);
+			}
+			System.out.println();
 		}
 	}
 }

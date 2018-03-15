@@ -128,36 +128,55 @@ public class Menu extends JFrame {
 						UnPunto cruce = new UnPunto(porcentageCruce);
 						Mutacion mutacion = new Mutacion(porcentageMutacion);
 						
+						/*Crear la poblacion*/ /*Funciona*/
+						funcion1.showPoblacion();
+						funcion1.showFitness();
 						funcion1.calcularGenMejor();
 						genMejor = funcion1.getGenMejor();
-
-						int posGenMejor = 0;
-						for (int i = 0; i < numeroGeneraciones; i++) {	
-							r.ejecutarRuleta(funcion1);  
-							cruce.cruzar(funcion1);
-							//mutacion.mutar(funcion1);
-											
-							System.out.println("Vuelta: " + i);
-							funcion1.showPoblacion();
-							funcion1.calcularFenotipos();
-							funcion1.calcularFitness();	
-							funcion1.showFitness();
-							
-//							System.out.println("----------------------");
-							funcion1.setGenMejor(genMejor);
-							funcion1.calcularGenMejor();
-							genMejor = funcion1.getGenMejor();
-							funcion1.calcularFenotipos();
-							funcion1.calcularFitness();
-							
-							posGenMejor = funcion1.getPosGenMejor();
-							
-							generacion[i] = i;						
-							mejoresFitness[i] = funcion1.getFitness()[posGenMejor];
-						}
 						
-						grafica.setVisible(false);
-						pintarGrafica(grafica, generacion, mejoresFitness);
+						/*Ejecutar la ruleta*/ /*Funciona*/
+						r.ejecutarRuleta(funcion1);
+						r.showSeleccionados();
+						funcion1.calcularFenotipos();
+						funcion1.calcularFitness();
+						funcion1.showPoblacion();
+						funcion1.showFitness();
+
+						/*Ejecutar el cruce*/
+						cruce.cruzar(funcion1);
+						cruce.showCruzados();
+						funcion1.calcularFenotipos();
+						funcion1.calcularFitness();
+						funcion1.showPoblacion();
+						funcion1.showFitness();
+						
+						int posGenMejor = 0;
+//						for (int i = 0; i < numeroGeneraciones; i++) {	
+//							r.ejecutarRuleta(funcion1);  
+//							cruce.cruzar(funcion1);
+//							//mutacion.mutar(funcion1);
+//											
+//							System.out.println("Vuelta: " + i);
+//							funcion1.showPoblacion();
+//							funcion1.calcularFenotipos();
+//							funcion1.calcularFitness();	
+//							funcion1.showFitness();
+//							
+////							System.out.println("----------------------");
+//							funcion1.setGenMejor(genMejor);
+//							funcion1.calcularGenMejor();
+//							genMejor = funcion1.getGenMejor();
+//							funcion1.calcularFenotipos();
+//							funcion1.calcularFitness();
+//							
+//							posGenMejor = funcion1.getPosGenMejor();
+//							
+//							generacion[i] = i;						
+//							mejoresFitness[i] = funcion1.getFitness()[posGenMejor];
+//						}
+//						
+//						grafica.setVisible(false);
+//						pintarGrafica(grafica, generacion, mejoresFitness);
 					}
 				} 
 			}

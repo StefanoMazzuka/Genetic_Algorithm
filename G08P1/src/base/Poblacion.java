@@ -108,6 +108,7 @@ public abstract class Poblacion {
 		}
 	}
 	public void showPoblacion() {
+		System.out.println("La poblacion es:");
 		boolean[] alelos;
 		for (int i = 0; i < this.longitudPob; i++) {
 			alelos = this.poblacion.get(i).getAlelos();
@@ -119,9 +120,7 @@ public abstract class Poblacion {
 		}
 	}
 	
-	
 	/*Getters and Setters*/
-	
 	public double[] getFenotipo() {
 		return this.fenotipo;
 	}

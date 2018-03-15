@@ -20,7 +20,7 @@ public class Funcion2 extends Poblacion{
 	public void calcularFitness() {
 		double[] fenotipo = getFenotipo();
 		for (int i = 0; i < getLongitudPob(); i++) {
-			this.fitnessF1[i] = -();
+			this.fitnessF1[i] = 0;
 		}
 		setFitness(this.fitnessF1);
 	}
