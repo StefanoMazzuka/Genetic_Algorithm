@@ -51,17 +51,20 @@ public class UnPunto {
 
 	public void cualCruza() {
 		double pc = 0;
+		int pos = 0;
 		for (int i = 0; i < this.poblacion.size(); i++) {
 			pc = Math.random();
 			this.individuosACruzar[i] = false;
 			if (pc < pCruce) {
-				this.poblacionACruzar.add(poblacion.get(i));
+				this.poblacionACruzar.add(this.poblacion.get(i));
 				this.individuosACruzar[i] = true;
+				pos = i;
 			}
 		}
+		
 		if (this.poblacionACruzar.size() % 2 != 0) {
-			this.poblacionACruzar.remove(0);
-			this.individuosACruzar[0] = false;
+			this.poblacionACruzar.remove(this.poblacion.get(pos)); // Era esta linea... el error.
+			this.individuosACruzar[pos] = false;
 		} 
 	}
 	

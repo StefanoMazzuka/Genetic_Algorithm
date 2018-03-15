@@ -66,7 +66,7 @@ public abstract class Poblacion {
 		}
 	}
 	
-	public void calcularGenMejor() {
+	public Gen calcularGenMejor() {
 		double mejorFitness = 0.00000000000000000000;
 		int pos = 0;
 		for (int i = 0; i < this.fitness.length; i++) {
@@ -85,6 +85,7 @@ public abstract class Poblacion {
 			else System.out.print(0);
 		}
 		System.out.println();
+		return this.genMejor;
 	}
 
 	public void calcularGenPeor() {
@@ -141,9 +142,6 @@ public abstract class Poblacion {
 	}
 	public double getLgen() {
 		return lgen;
-	}
-	public Gen getGenMejor() {
-		return genMejor;
 	}
 	public void setFitness(double[] fitness) {
 		this.fitness = fitness;
