@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -25,6 +24,10 @@ import seleccion.Ruleta;
 
 public class Menu extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int tamañoPoblacion;
 	private int numeroGeneraciones;
 	private double porcentageCruce;
@@ -35,8 +38,8 @@ public class Menu extends JFrame {
 	private double[] mejoresFitness;
 	
 	public Menu() {
-		JTextField tamPob = new JTextField("10");
-		JTextField numGen = new JTextField("10");
+		JTextField tamPob = new JTextField("100");
+		JTextField numGen = new JTextField("100");
 		JTextField porCruce = new JTextField("0.6");
 		JTextField porMuta = new JTextField("0.05");
 		JTextField preci = new JTextField("0.001");
@@ -115,7 +118,57 @@ public class Menu extends JFrame {
 					}
 					
 					else if (eliY.isSelected() == true && eliN.isSelected() == false) {
-						JOptionPane.showMessageDialog(null, "Opcion elitista.");
+						JOptionPane.showMessageDialog(null, "Opcion elitista con un 2% de la población.");
+						generacion = new double[numeroGeneraciones];
+						mejoresFitness = new double[numeroGeneraciones];
+						
+						Funcion1 funcion1 = new Funcion1(tamañoPoblacion, precision, 0, 32);
+						Ruleta ruleta = new Ruleta();
+						UnPunto cruce = new UnPunto(porcentageCruce);
+						Mutacion mutacion = new Mutacion(porcentageMutacion);
+						
+						int posGenMejor = 0;
+						for (int i = 0; i < numeroGeneraciones; i++) {
+							/*Crear la poblacion*/ /*Funciona*/
+//							funcion1.showPoblacion();
+//							funcion1.showFitness();
+							
+							funcion1.calcularGenMejorEli(0.02);
+							funcion1.calcularFenotipos();
+							funcion1.calcularFitness();
+//							funcion1.showPoblacion();
+//							funcion1.showFitness();
+							
+							/*Ejecutar la ruleta*/ /*Funciona*/
+							ruleta.ejecutarRuleta(funcion1);
+//							ruleta.showSeleccionados();
+							funcion1.calcularFenotipos();
+							funcion1.calcularFitness();
+//							funcion1.showPoblacion();
+//							funcion1.showFitness();
+
+							/*Ejecutar el cruce*/  /*Funciona*/
+							cruce.cruzar(funcion1);
+//							cruce.showCruzados();
+							funcion1.calcularFenotipos();
+							funcion1.calcularFitness();
+//							funcion1.showPoblacion();
+//							funcion1.showFitness();
+							
+							/*Ejecutar la mutacion*/ /*Funciona*/
+							mutacion.mutar(funcion1);
+							funcion1.calcularFenotipos();
+							funcion1.calcularFitness();
+//							funcion1.showPoblacion();
+//							funcion1.showFitness();
+							
+							posGenMejor = funcion1.getPosGenMejor();
+							generacion[i] = i;					
+							mejoresFitness[i] = funcion1.getFitness()[posGenMejor];
+						}
+						
+						grafica.setVisible(false);
+						pintarGrafica(grafica, generacion, mejoresFitness);
 					}
 
 					else if (eliY.isSelected() == false && eliN.isSelected() == true) {
@@ -131,6 +184,13 @@ public class Menu extends JFrame {
 						int posGenMejor = 0;
 						for (int i = 0; i < numeroGeneraciones; i++) {
 							/*Crear la poblacion*/ /*Funciona*/
+//							funcion1.showPoblacion();
+//							funcion1.showFitness();
+							genMejor = funcion1.calcularGenMejor();
+							
+							funcion1.calcularGenMejorEli(0.02);
+							funcion1.calcularFenotipos();
+							funcion1.calcularFitness();
 //							funcion1.showPoblacion();
 //							funcion1.showFitness();
 							genMejor = funcion1.calcularGenMejor();
@@ -158,7 +218,7 @@ public class Menu extends JFrame {
 //							funcion1.showPoblacion();
 //							funcion1.showFitness();
 							
-							System.out.println("Metemos GEN MEJOR:");
+//							System.out.println("Metemos GEN MEJOR:");
 							
 							/*Meter Gen mejor*/ /*Funciona*/
 							funcion1.setGenMejor(genMejor);

@@ -1,9 +1,6 @@
 package funciones;
 
-import java.util.ArrayList;
-
 import base.Poblacion;
-import base.Gen;
 
 public class Funcion1 extends Poblacion{
 

@@ -1,7 +1,6 @@
 package cruce;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import base.Gen;
 import base.Poblacion;
@@ -18,7 +17,6 @@ public class UnPunto {
 	public UnPunto(double pCruce) {
 		this.pCruce = pCruce;
 	}
-
 	public void cruzar(Poblacion pob) {
 		
 		this.longitudGen = (int) pob.getLgen();	
@@ -48,7 +46,6 @@ public class UnPunto {
 		poblacionFinal();
 		pob.setPoblacion(this.poblacion);
 	}
-
 	public void cualCruza() {
 		double pc = 0;
 		int pos = 0;
@@ -67,7 +64,6 @@ public class UnPunto {
 			this.individuosACruzar[pos] = false;
 		} 
 	}
-	
 	public void cruzarGenes(int pos, Gen padreUno, Gen padreDos) {
 		boolean[] hijoUno = new boolean[longitudGen];
 		boolean[] hijoDos = new boolean[longitudGen];
@@ -92,7 +88,6 @@ public class UnPunto {
 		hijoB.setAlelos(hijoDos);
 		this.poblacionCruzada.add(hijoB);
 	}
-
 	public void poblacionFinal() {
 		// Cogemos la posicion CREO QUE AQUI ESTA EL ERROR.
 		int pos = 0;
@@ -103,7 +98,6 @@ public class UnPunto {
 			}
 		}
 	}
-	
 	public void showCruzados() {
 		System.out.println("Los que hay que cruzar son:");
 		for (int i = 0; i < this.poblacionACruzar.size(); i++) {
