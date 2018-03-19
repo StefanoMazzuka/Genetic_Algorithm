@@ -1,8 +1,7 @@
 package funciones;
 
-import base.Poblacion;
-
-public class Funcion1 extends Poblacion{
+import base.Cromosoma;
+public class Funcion1 extends Cromosoma{
 
 	private double[] fitnessF1;
 	public Funcion1(int longitud, double tolerancia, double min, double max) {

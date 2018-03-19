@@ -13,24 +13,28 @@ public class Mutacion {
 	}
 	
 	
-	public void mutar (Poblacion poblacion){	
+	public void mutar (Poblacion poblacion) {	
+		
 		boolean mutado;
-		ArrayList<Gen> pob = poblacion.getPoblacion();
+		ArrayList<Gen> pob = new ArrayList<Gen>(poblacion.getPoblacion());
+		boolean[] gen = new boolean[(int) poblacion.getLgen()];
+		
 		for (int i = 0; i < poblacion.getLongitudPob(); i++) {
 			mutado = false;
-			boolean[] gen = pob.get(i).getAlelos();
+			gen = pob.get(i).getAlelos();
 			
 			for (int j = 0; j < gen.length; j++) {
 				double porbAuxiliar = Math.random();
 				
 				if (porbAuxiliar <= probMutacion) {
-					if (gen[j]) gen[j] = false;
+					if (gen[j] == true) gen[j] = false;
 					else gen[j] = true;
 					mutado = true;
 				}
 			}
 			
 			if (mutado) {
+				System.out.println("Pos mutada: " + i);
 				pob.get(i).setAlelos(gen);
 			}
 		}

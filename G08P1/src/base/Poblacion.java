@@ -10,7 +10,7 @@ public abstract class Poblacion {
 	private double[] fenotipo; //fenotipo
 	int longitudPob; //longitud de poblaci�n 
 	private double tolerancia; //tambien conocido como precision 
-	double lgen;
+	int lgen;
 	double max;
 	double min;
 	private Gen genMejor;
@@ -33,10 +33,9 @@ public abstract class Poblacion {
 	}
 
 	public void longGen() {
-		this.lgen = loga((1+((max-min) / this.tolerancia)), 2);
-		this.lgen = Math.ceil(lgen);
+		this.lgen = (int) Math.ceil(loga((1 + ((max-min) / this.tolerancia)), 2));
 	}
-	static double loga(double x, double base) {
+	static double loga(double x, int base) {
 		return (Math.log(x) / Math.log(base));
 	}
 	public void calcularFenotipos() {
@@ -64,37 +63,41 @@ public abstract class Poblacion {
 		}
 	}
 	public Gen calcularGenMejor() {
-		double mejorFitness = 0.00000000000000000000;
-		int pos = 0;
-		for (int i = 0; i < this.fitness.length; i++) {
-			if (mejorFitness < this.fitness[i]) {
-				mejorFitness = this.fitness[i];
-				genMejor = this.poblacion.get(i);
-				pos = i;
-			}	
-		}
+//		double mejorFitness = 0.00000000000000000000;
+//		int pos = 0;
+//		for (int i = 0; i < this.fitness.length; i++) {
+//			if (mejorFitness < this.fitness[i]) {
+//				mejorFitness = this.fitness[i];
+//				genMejor = this.poblacion.get(i);
+//				pos = i;
+//			}	
+//		}
 		
-		this.posGenMejor = pos;	
+		ordenar();
+		System.out.print("EL FITNESS MEJOR ES: " + this.fitness[0]);
+		return this.poblacion.get(0).copy();
+		
+//			
 //		System.out.print("EL FITNESS MEJOR ES: " + mejorFitness +", Pos: "+ this.posGenMejor + ", Gen: ");
 //		boolean[] x = genMejor.getAlelos();
 //		for (int j = 0; j < x.length; j++) {
 //			if(x[j] == true) System.out.print(1);
 //			else System.out.print(0);
 //		}
-//		System.out.println();
-		return this.genMejor;
+////		System.out.println();
+//		return this.genMejor;
 	}
 	public void calcularGenMejorEli(double porcentageEli) {
-		int numElegidos = (int) (porcentageEli * 100);
+		int numElegidos = (int)Math.round((porcentageEli * this.longitudPob));
 		ordenar();
 		
 		for (int i = 0; i < numElegidos; i++) {
 			this.poblacion.set((this.longitudPob - 1) - i, this.poblacion.get(i));
 		}
 		
-		ordenar();  
+		ordenar();
 	}
-	public void calcularGenPeor() {
+/*	public void calcularGenPeor() {
 		double peorFitness = MAXABSOLUTO;
 		for (int i = 0; i < this.fitness.length; i++) {
 			if (peorFitness > this.fitness[i]) {
@@ -104,10 +107,11 @@ public abstract class Poblacion {
 		}
 //		System.out.println("EL FITNESS PEOR ES: " + peorFitness +", Pos: " + this.genPeor);
 	}
+*/
 	public void setGenMejor(Gen gen) {
-		calcularGenPeor();
 //		System.out.println("Vamos a sustituir en: " + this.genPeor);
-		this.poblacion.set(genPeor, gen);
+		ordenar();
+		this.poblacion.set(this.longitudPob-1, gen);
 	}
 	public void showFitness() {
 		for (int i = 0; i < this.fitness.length; i++) {

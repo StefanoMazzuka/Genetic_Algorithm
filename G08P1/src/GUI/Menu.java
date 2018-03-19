@@ -181,19 +181,19 @@ public class Menu extends JFrame {
 						UnPunto cruce = new UnPunto(porcentageCruce);
 						Mutacion mutacion = new Mutacion(porcentageMutacion);
 						
+						genMejor = funcion1.calcularGenMejor();
+						
 						int posGenMejor = 0;
 						for (int i = 0; i < numeroGeneraciones; i++) {
 							/*Crear la poblacion*/ /*Funciona*/
 //							funcion1.showPoblacion();
 //							funcion1.showFitness();
-							genMejor = funcion1.calcularGenMejor();
-							
-							funcion1.calcularGenMejorEli(0.02);
+										
 							funcion1.calcularFenotipos();
 							funcion1.calcularFitness();
 //							funcion1.showPoblacion();
 //							funcion1.showFitness();
-							genMejor = funcion1.calcularGenMejor();
+
 							
 							/*Ejecutar la ruleta*/ /*Funciona*/
 							ruleta.ejecutarRuleta(funcion1);
@@ -204,35 +204,39 @@ public class Menu extends JFrame {
 //							funcion1.showFitness();
 
 							/*Ejecutar el cruce*/  /*Funciona*/
+							System.out.println("Cruce");
 							cruce.cruzar(funcion1);
 //							cruce.showCruzados();
 							funcion1.calcularFenotipos();
 							funcion1.calcularFitness();
-//							funcion1.showPoblacion();
-//							funcion1.showFitness();
+							funcion1.showPoblacion();
+							funcion1.showFitness();
 							
+							System.out.println("Mutacion");
 							/*Ejecutar la mutacion*/ /*Funciona*/
 							mutacion.mutar(funcion1);
 							funcion1.calcularFenotipos();
 							funcion1.calcularFitness();
-//							funcion1.showPoblacion();
-//							funcion1.showFitness();
+							funcion1.ordenar();
+							funcion1.showPoblacion();
+							funcion1.showFitness();
 							
-//							System.out.println("Metemos GEN MEJOR:");
-							
+							System.out.println("Metemos GEN MEJOR:");
 							/*Meter Gen mejor*/ /*Funciona*/
 							funcion1.setGenMejor(genMejor);
 							funcion1.calcularFenotipos();
 							funcion1.calcularFitness();
-//							funcion1.showPoblacion();							
-//							funcion1.showFitness();
+							funcion1.showPoblacion();							
+							funcion1.showFitness();
 							
-							posGenMejor = funcion1.getPosGenMejor();
+							genMejor = funcion1.calcularGenMejor();
+							
 							generacion[i] = i;					
-							mejoresFitness[i] = funcion1.getFitness()[posGenMejor];
+							mejoresFitness[i] = funcion1.getFitness()[0];
 						}
 						
 						grafica.setVisible(false);
+						grafica.removeAllPlots();
 						pintarGrafica(grafica, generacion, mejoresFitness);
 					}
 				} 
