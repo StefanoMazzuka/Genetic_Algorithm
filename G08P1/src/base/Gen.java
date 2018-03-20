@@ -1,15 +1,20 @@
 package base;
 
+import java.util.Random;
+
 public class Gen {
 	boolean[] alelos;
 	int lgen;
 
 	public Gen(int lgen) {
 		this.lgen = lgen;
-		
 		this.alelos = new boolean[lgen];
+		
+		Random r = new Random();
+		int alelo;
 		for (int i = 0; i < this.lgen; i++) {
-			if (Math.round(Math.random()) == 1) this.alelos[i] = true;
+			alelo = r.nextInt(2);
+			if (alelo == 1) this.alelos[i] = true;
 			else this.alelos[i] = false;
 		}
 	}

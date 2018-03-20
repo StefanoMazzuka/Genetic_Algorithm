@@ -1,25 +1,36 @@
 package funciones;
 
 import base.Cromosoma;
-public class Funcion1 extends Cromosoma{
+import base.Gen;
 
-	private double[] fitnessF1;
-	public Funcion1(int longitud, double tolerancia, double min, double max) {
+public class Funcion1 extends Cromosoma {
 
-		super(longitud, tolerancia, max, min);
+	private double min = 0;
+	private double max = 32;
 
-		this.fitnessF1 = new double[longitud];
+	public Funcion1(double precision) {
+		this.setPrecision(precision);
+		this.gen = new Gen[1];
+		this.setlCromosoma((int) Math.ceil(Math.log((1 + ((this.max - this.min) / this.getPrecision()))) / Math.log(2)));
+		this.gen[0] = new Gen(this.getlCromosoma());
 		calcularFitness();
-		setFitness(this.fitnessF1);
+		this.calcularFitnessTotal();
+	}
+
+	private void calcularFenotipo() {
+		double[] fenotipo = new double[1];
+		fenotipo[0] = this.min + (this.max - this.min) * 
+				this.bin_dec(this.gen[0]) / (Math.pow(2, this.getlCromosoma()) - 1);
+		this.setFenotipo(fenotipo);
 	}
 
 	public void calcularFitness() {
-		double[] fenotipo = getFenotipo();
-		for (int i = 0; i < getLongitudPob(); i++) {
-			this.fitnessF1[i] = 20 + Math.E - 20 * 
-					Math.pow(Math.E, (-0.2 * Math.abs(fenotipo[i]))) - 
-					Math.pow(Math.E, Math.cos(2 * Math.PI * fenotipo[i]));
-		}
-		setFitness(this.fitnessF1);
+		calcularFenotipo();
+		double[] fenotipo = this.getFenotipo();
+		double[] fitness = new double[1];
+		fitness[0] = 20 + Math.E - 20 * 
+				Math.pow(Math.E, (-0.2 * Math.abs(fenotipo[0]))) - 
+				Math.pow(Math.E, Math.cos(2 * Math.PI * fenotipo[0]));
+		this.setFitness(fitness);
 	}
 }

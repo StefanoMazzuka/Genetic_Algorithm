@@ -16,6 +16,8 @@ import javax.swing.JTextField;
 
 import org.math.plot.*;
 
+import base.AlgoritmoGenetico;
+import base.Cromosoma;
 import base.Gen;
 import cruce.UnPunto;
 import funciones.Funcion1;
@@ -122,7 +124,7 @@ public class Menu extends JFrame {
 						generacion = new double[numeroGeneraciones];
 						mejoresFitness = new double[numeroGeneraciones];
 						
-						Funcion1 funcion1 = new Funcion1(tamañoPoblacion, precision, 0, 32);
+						Funcion1 funcion1 = new Funcion1(precision);
 						Ruleta ruleta = new Ruleta();
 						UnPunto cruce = new UnPunto(porcentageCruce);
 						Mutacion mutacion = new Mutacion(porcentageMutacion);
@@ -133,36 +135,36 @@ public class Menu extends JFrame {
 //							funcion1.showPoblacion();
 //							funcion1.showFitness();
 							
-							funcion1.calcularGenMejorEli(0.02);
-							funcion1.calcularFenotipos();
-							funcion1.calcularFitness();
+//							funcion1.calcularGenMejorEli(0.02);
+//							funcion1.calcularFenotipos();
+//							funcion1.calcularFitness();
 //							funcion1.showPoblacion();
 //							funcion1.showFitness();
 							
 							/*Ejecutar la ruleta*/ /*Funciona*/
-							ruleta.ejecutarRuleta(funcion1);
+//							ruleta.ejecutarRuleta(funcion1);
 //							ruleta.showSeleccionados();
-							funcion1.calcularFenotipos();
-							funcion1.calcularFitness();
+//							funcion1.calcularFenotipos();
+//							funcion1.calcularFitness();
 //							funcion1.showPoblacion();
 //							funcion1.showFitness();
 
 							/*Ejecutar el cruce*/  /*Funciona*/
-							cruce.cruzar(funcion1);
+//							cruce.cruzar(funcion1);
 //							cruce.showCruzados();
-							funcion1.calcularFenotipos();
-							funcion1.calcularFitness();
+//							funcion1.calcularFenotipos();
+//							funcion1.calcularFitness();
 //							funcion1.showPoblacion();
 //							funcion1.showFitness();
 							
 							/*Ejecutar la mutacion*/ /*Funciona*/
-							mutacion.mutar(funcion1);
-							funcion1.calcularFenotipos();
-							funcion1.calcularFitness();
+//							mutacion.mutar(funcion1);
+//							funcion1.calcularFenotipos();
+//							funcion1.calcularFitness();
 //							funcion1.showPoblacion();
 //							funcion1.showFitness();
 							
-							posGenMejor = funcion1.getPosGenMejor();
+//							posGenMejor = funcion1.getPosGenMejor();
 							generacion[i] = i;					
 							mejoresFitness[i] = funcion1.getFitness()[posGenMejor];
 						}
@@ -176,63 +178,16 @@ public class Menu extends JFrame {
 						generacion = new double[numeroGeneraciones];
 						mejoresFitness = new double[numeroGeneraciones];
 						
-						Funcion1 funcion1 = new Funcion1(tamañoPoblacion, precision, 0, 32);
-						Ruleta ruleta = new Ruleta();
-						UnPunto cruce = new UnPunto(porcentageCruce);
-						Mutacion mutacion = new Mutacion(porcentageMutacion);
+						AlgoritmoGenetico ag = new AlgoritmoGenetico(tamañoPoblacion, precision);
+						Ruleta r = new Ruleta();
+						double fitnessMejor;
+						double fitnessMejorAbsoluto;
 						
-						genMejor = funcion1.calcularGenMejor();
-						
-						int posGenMejor = 0;
 						for (int i = 0; i < numeroGeneraciones; i++) {
-							/*Crear la poblacion*/ /*Funciona*/
-//							funcion1.showPoblacion();
-//							funcion1.showFitness();
-										
-							funcion1.calcularFenotipos();
-							funcion1.calcularFitness();
-//							funcion1.showPoblacion();
-//							funcion1.showFitness();
-
-							
-							/*Ejecutar la ruleta*/ /*Funciona*/
-							ruleta.ejecutarRuleta(funcion1);
-//							ruleta.showSeleccionados();
-							funcion1.calcularFenotipos();
-							funcion1.calcularFitness();
-//							funcion1.showPoblacion();
-//							funcion1.showFitness();
-
-							/*Ejecutar el cruce*/  /*Funciona*/
-							System.out.println("Cruce");
-							cruce.cruzar(funcion1);
-//							cruce.showCruzados();
-							funcion1.calcularFenotipos();
-							funcion1.calcularFitness();
-							funcion1.showPoblacion();
-							funcion1.showFitness();
-							
-							System.out.println("Mutacion");
-							/*Ejecutar la mutacion*/ /*Funciona*/
-							mutacion.mutar(funcion1);
-							funcion1.calcularFenotipos();
-							funcion1.calcularFitness();
-							funcion1.ordenar();
-							funcion1.showPoblacion();
-							funcion1.showFitness();
-							
-							System.out.println("Metemos GEN MEJOR:");
-							/*Meter Gen mejor*/ /*Funciona*/
-							funcion1.setGenMejor(genMejor);
-							funcion1.calcularFenotipos();
-							funcion1.calcularFitness();
-							funcion1.showPoblacion();							
-							funcion1.showFitness();
-							
-							genMejor = funcion1.calcularGenMejor();
-							
-							generacion[i] = i;					
-							mejoresFitness[i] = funcion1.getFitness()[0];
+							ag.showPoblacion();
+							System.out.println("Fitnes Mejor: " + ag.getFitnessMejor());
+							System.out.println("Fitnes Mejor Absoluto: " + ag.getFitnessMejorAbsoluto());
+							r.ejecutarRuleta(ag);
 						}
 						
 						grafica.setVisible(false);
