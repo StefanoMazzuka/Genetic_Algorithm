@@ -10,6 +10,7 @@ public class AlgoritmoGenetico {
 	private int lPoblacion;
 	private double precision;
 	private double fitnessMejorAbsoluto;
+	private int lCromosoma;
 
 	public AlgoritmoGenetico(int lPoblacion, double precision) {
 		this.lPoblacion = lPoblacion;
@@ -22,8 +23,10 @@ public class AlgoritmoGenetico {
 		Funcion1 f;
 		for (int i = 0; i < lPoblacion; i++) {
 			f = new Funcion1(precision);
+			f.setId(i);
 			this.poblacion.add(i, f);
 		}
+		this.lCromosoma = 1;
 	}
 	
 	public void crearPoblacion2(double precision) {
@@ -116,5 +119,13 @@ public class AlgoritmoGenetico {
 
 	public void setFitnessMejorAbsoluto(double fitnessMejorAbsoluto) {
 		this.fitnessMejorAbsoluto = fitnessMejorAbsoluto;
+	}
+
+	public int getlCromosoma() {
+		return lCromosoma;
+	}
+
+	public void setlCromosoma(int lCromosoma) {
+		this.lCromosoma = lCromosoma;
 	}
 }
