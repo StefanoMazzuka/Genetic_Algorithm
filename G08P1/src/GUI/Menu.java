@@ -180,6 +180,7 @@ public class Menu extends JFrame {
 						
 						AlgoritmoGenetico ag = new AlgoritmoGenetico(tamañoPoblacion, precision);
 						Ruleta r = new Ruleta();
+						UnPunto p = new UnPunto(porcentageCruce);
 						double fitnessMejor;
 						double fitnessMejorAbsoluto;
 						
@@ -188,6 +189,9 @@ public class Menu extends JFrame {
 							System.out.println("Fitnes Mejor: " + ag.getFitnessMejor());
 							System.out.println("Fitnes Mejor Absoluto: " + ag.getFitnessMejorAbsoluto());
 							r.ejecutarRuleta(ag);
+							r.showPuntuacion();
+							ag.showPoblacion();
+							p.cruzar(ag);
 						}
 						
 						grafica.setVisible(false);

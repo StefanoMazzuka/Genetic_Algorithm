@@ -19,6 +19,10 @@ public class Gen {
 		}
 	}
 
+	public void crearAlelos() {
+
+	}
+	
 	public boolean[] getAlelos() {
 		return alelos;
 	}
@@ -35,9 +39,10 @@ public class Gen {
 		this.lgen = lgen;
 	}
 	
-	public Gen copy()  {
+	public Gen copy() {
+		boolean[] alelos = this.alelos;
 		Gen g = new Gen(this.lgen);
-		g.setAlelos(this.getAlelos());
+		g.setAlelos(alelos);
 		return g;
 	}
 }

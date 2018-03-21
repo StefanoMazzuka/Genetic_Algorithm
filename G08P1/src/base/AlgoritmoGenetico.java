@@ -9,12 +9,12 @@ public class AlgoritmoGenetico {
 	private ArrayList<Cromosoma> poblacion;
 	private int lPoblacion;
 	private double precision;
-	
 	private double fitnessMejorAbsoluto;
 
 	public AlgoritmoGenetico(int lPoblacion, double precision) {
 		this.lPoblacion = lPoblacion;
 		this.poblacion = new ArrayList<Cromosoma>(this.lPoblacion);
+		this.precision = precision;
 		crearPoblacionFuncion1(precision);
 	}
 	
@@ -68,6 +68,22 @@ public class AlgoritmoGenetico {
 		
 		return fitnessMejor;
 	}
+
+	public AlgoritmoGenetico copy() {
+		ArrayList<Cromosoma> poblacion = this.poblacion;
+		int lPoblacion = this.lPoblacion;
+		double precision = this.precision;
+		double fitnessMejorAbsoluto = this.fitnessMejorAbsoluto;
+		
+		AlgoritmoGenetico ag = new AlgoritmoGenetico(lPoblacion, precision);
+		
+		ag.setPoblacion(poblacion);
+		ag.setlPoblacion(lPoblacion);
+		ag.setPrecision(precision);
+		ag.setFitnessMejorAbsoluto(fitnessMejorAbsoluto);
+		
+		return ag;
+	}
 	
 	/*Getters and Setters*/
 	public double getFitnessMejorAbsoluto() {
@@ -88,5 +104,17 @@ public class AlgoritmoGenetico {
 
 	public void setlPoblacion(int lPoblacion) {
 		this.lPoblacion = lPoblacion;
+	}
+	
+	public double getPrecision() {
+		return precision;
+	}
+
+	public void setPrecision(double precision) {
+		this.precision = precision;
+	}
+
+	public void setFitnessMejorAbsoluto(double fitnessMejorAbsoluto) {
+		this.fitnessMejorAbsoluto = fitnessMejorAbsoluto;
 	}
 }

@@ -8,7 +8,6 @@ public abstract class Cromosoma {
 	public double[] fenotipo;
 	public double[] fitness;
 	public double fitnessTotalCromosoma;
-
 	public int lCromosoma;
 		
 	public Cromosoma() {}
@@ -28,9 +27,24 @@ public abstract class Cromosoma {
 	}
 	
 	public Funcion1 copy() {
+		Gen[] gen = new Gen[1];
+		gen[0] = this.gen[0].copy();
+	
+		double precision = this.precision;
+		double[] fenotipo = this.fenotipo;
+		double[] fitness = this.fitness;
+		double fitnessTotalCromosoma = this.fitnessTotalCromosoma;
+		int lCromosoma = this.lCromosoma;
+		
 		Funcion1 f = new Funcion1(this.precision);
-		f.setFenotipo(this.fenotipo);
-		f.setFitness(this.fitness);
+		
+		f.setGen(gen);
+		f.setPrecision(precision);
+		f.setFenotipo(fenotipo);
+		f.setFitness(fitness);
+		f.setFitnessTotalCromosoma(fitnessTotalCromosoma);
+		f.setlCromosoma(lCromosoma);
+		
 		return f;
 	}
 	

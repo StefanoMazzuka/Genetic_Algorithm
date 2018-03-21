@@ -13,6 +13,7 @@ public class Funcion1 extends Cromosoma {
 		this.gen = new Gen[1];
 		this.setlCromosoma((int) Math.ceil(Math.log((1 + ((this.max - this.min) / this.getPrecision()))) / Math.log(2)));
 		this.gen[0] = new Gen(this.getlCromosoma());
+		this.gen[0].crearAlelos();
 		calcularFitness();
 		this.calcularFitnessTotal();
 	}
