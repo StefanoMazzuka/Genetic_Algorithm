@@ -16,7 +16,6 @@ public abstract class Cromosoma {
 	public Cromosoma(double precision) {
 		this.precision = precision;
 	}
-	
 	protected double bin_dec(Gen gen) {		
 		double dec = 0;
 		boolean[] alelos = gen.getAlelos();
@@ -26,7 +25,6 @@ public abstract class Cromosoma {
 		
 		return dec; 
 	}
-	
 	public Funcion1 copy() {
 		Gen[] gen = new Gen[1];
 		gen[0] = this.gen[0].copy();
@@ -50,7 +48,6 @@ public abstract class Cromosoma {
 		
 		return f;
 	}
-	
 	public void calcularFitnessTotal() {
 		double fitnessTotalCromosoma = 0;
 		for (int i = 0; i < this.fitness.length; i++) {
@@ -58,64 +55,49 @@ public abstract class Cromosoma {
 		}
 		this.fitnessTotalCromosoma = fitnessTotalCromosoma;
 	}
-	
 	public abstract void calcularFenotipo();
-	
 	public abstract void calcularFitness();
 	
 	/*Getters y Setters*/
 	public Gen[] getGen() {
 		return gen;
 	}
-
 	public void setGen(Gen[] gen) {
 		this.gen = gen;
 	}
-
 	public double[] getFitness() {
 		return fitness;
 	}
-
 	public void setFitness(double[] fitness) {
 		this.fitness = fitness;
 	}
-
 	public double[] getFenotipo() {
 		return fenotipo;
 	}
-
 	public void setFenotipo(double[] fenotipo) {
 		this.fenotipo = fenotipo;
 	}
-
 	public double getFitnessTotalCromosoma() {
 		return fitnessTotalCromosoma;
 	}
-
 	public void setFitnessTotalCromosoma(double fitnessTotalCromosoma) {
 		this.fitnessTotalCromosoma = fitnessTotalCromosoma;
-	}
-	
+	}	
 	public double getPrecision() {
 		return precision;
 	}
-
 	public void setPrecision(double precision) {
 		this.precision = precision;
 	}
-	
 	public int getId() {
 		return id;
 	}
-
 	public void setId(int id) {
 		this.id = id;
 	}
-
 	public int getlGen() {
 		return lGen;
 	}
-
 	public void setlGen(int lGen) {
 		this.lGen = lGen;
 	}

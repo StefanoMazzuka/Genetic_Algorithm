@@ -17,12 +17,6 @@ import javax.swing.JTextField;
 import org.math.plot.*;
 
 import base.AlgoritmoGenetico;
-import base.Cromosoma;
-import base.Gen;
-import cruce.UnPunto;
-import funciones.Funcion1;
-import mutacion.Mutacion;
-import seleccion.Ruleta;
 
 public class Menu extends JFrame {
 
@@ -121,7 +115,27 @@ public class Menu extends JFrame {
 					}
 					
 					else if (eliY.isSelected() == true && eliN.isSelected() == false) {
-						/*Hacer Elitista*/
+						generacion = new double[numeroGeneraciones];
+						mejoresFitnessAbsolutos = new double[numeroGeneraciones];
+						mejoresFitness = new double[numeroGeneraciones];
+						
+						for (int i = 0; i < numeroGeneraciones; i++) {
+							generacion[i] = i;
+						}
+						
+						AlgoritmoGenetico ag = new AlgoritmoGenetico(tamañoPoblacion, precision, porcentajeCruce, 
+								porcentajeMutacion, numeroGeneraciones, true);
+						ag.ejecutarFuncion1();
+						
+						mejoresFitnessAbsolutos = ag.getListaFitnessMejorAbsoluto();
+						mejoresFitness = ag.getListaFitnessMejor();
+						listaMedias = ag.getListaMedias();
+						
+						grafica.setVisible(false);
+						grafica.removeAllPlots();
+						pintarGrafica(grafica, generacion, mejoresFitnessAbsolutos, "Mejor fitness absoluto");
+						pintarGrafica(grafica, generacion, mejoresFitness, "Mejor fitness por generacion");
+						pintarGrafica(grafica, generacion, listaMedias, "Media de fitness");
 					}
 
 					else if (eliY.isSelected() == false && eliN.isSelected() == true) {
@@ -135,7 +149,7 @@ public class Menu extends JFrame {
 						}
 						
 						AlgoritmoGenetico ag = new AlgoritmoGenetico(tamañoPoblacion, precision, porcentajeCruce, 
-								porcentajeMutacion, numeroGeneraciones);
+								porcentajeMutacion, numeroGeneraciones, false);
 						ag.ejecutarFuncion1();
 						
 						mejoresFitnessAbsolutos = ag.getListaFitnessMejorAbsoluto();
@@ -144,23 +158,22 @@ public class Menu extends JFrame {
 						
 						grafica.setVisible(false);
 						grafica.removeAllPlots();
-						pintarGrafica(grafica, generacion, mejoresFitnessAbsolutos);
-						pintarGrafica(grafica, generacion, mejoresFitness);
-						pintarGrafica(grafica, generacion, listaMedias);	
+						pintarGrafica(grafica, generacion, mejoresFitnessAbsolutos, "Mejor fitness absoluto");
+						pintarGrafica(grafica, generacion, mejoresFitness, "Mejor fitness por generacion");
+						pintarGrafica(grafica, generacion, listaMedias, "Media de fitness");	
 					}
 				} 
 			}
 		});	
 	}
 	
-	public void pintarGrafica(Plot2DPanel grafica, double[] x, double[] y) {
+	public void pintarGrafica(Plot2DPanel grafica, double[] x, double[] y, String nombre) {
 		// define the legend position
-		grafica.addLegend("SOUTH");
 		grafica.setAxisLabel(0, "Generaciones");
 		grafica.setAxisLabel(1, "Fitness");
 
 		// add a line plot to the PlotPanel
-		grafica.addLinePlot("", x, y);		
+		grafica.addLinePlot(nombre, x, y);		
 		add(grafica, BorderLayout.CENTER);	
 		grafica.setVisible(true);
 	}

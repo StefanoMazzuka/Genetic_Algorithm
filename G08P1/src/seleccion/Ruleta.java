@@ -1,13 +1,10 @@
 package seleccion;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 import base.AlgoritmoGenetico;
 import base.Cromosoma;
-import base.Gen;
-import base.Poblacion;
 
 public class Ruleta {	
 
@@ -46,7 +43,6 @@ public class Ruleta {
 	
 		ag.setPoblacion(pobSeleccionada);
 	}
-	
 	public void showPuntuacion() {
 		System.out.println("La puntuacion son:");
 		System.out.println("Fitnes total es: " + this.fitnessTotalPoblacion);

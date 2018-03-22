@@ -6,6 +6,7 @@ import cruce.UnPunto;
 import funciones.Funcion1;
 import mutacion.Mutacion;
 import seleccion.Ruleta;
+
 import java.util.Arrays;
 
 public class AlgoritmoGenetico {
@@ -19,15 +20,15 @@ public class AlgoritmoGenetico {
 	private double[] listaFitnessMejorAbsoluto;
 	private double[] listaFitnessMejor;
 	private double[] listaMedias;
-	
-
 	private int lCromosoma;
 	private double porcentajeCruce;
 	private double porcentajeMutacion;
 	private int numeroGeneraciones;
-
+	private boolean elitista;
+	private double porcentajeEli;
+	
 	public AlgoritmoGenetico(int lPoblacion, double precision, double porcentajeCruce, 
-			double porcentajeMutacion, int numeroGeneraciones) {
+			double porcentajeMutacion, int numeroGeneraciones, boolean elitista) {
 		this.lPoblacion = lPoblacion;
 		this.poblacion = new ArrayList<Cromosoma>(this.lPoblacion);
 		this.precision = precision;
@@ -40,6 +41,7 @@ public class AlgoritmoGenetico {
 		Arrays.fill(this.listaFitnessMejor, 0.0);
 		this.listaMedias = new double[this.numeroGeneraciones];
 		Arrays.fill(this.listaFitnessMejorAbsoluto, 0.0);
+		this.elitista = elitista;
 	}
 
 	public void ejecutarFuncion1() {
@@ -50,34 +52,22 @@ public class AlgoritmoGenetico {
 		Mutacion m = new Mutacion(this.porcentajeMutacion);
 		
 		for (int i = 0; i < this.numeroGeneraciones; i++) {
-//			this.showPoblacion();
-//			System.out.println();
-//			System.out.println("Fitnes Mejor: " + this.getFitnessMejor());
-//			System.out.println("Fitnes Mejor Absoluto: " + this.getFitnessMejorAbsoluto());
-//			System.out.println();
 			r.ejecutarRuleta(this);
-//			r.showPuntuacion();
-//			System.out.println("Seleccionada:");
-//			this.showPoblacion();
-//			System.out.println();
 			p.cruzar(this);
-//			p.showPoblacionACruzar();
-//			System.out.println();
-//			System.out.println("Poblacion Cruzada:");
-//			this.showPoblacion();
 			m.mutar(this);
-//			System.out.println();
-//			System.out.println("Poblacion Mutada:");
-//			this.showPoblacion();
+			
 			this.media = this.calcularMediaGeneracion();
 			this.fitnessMejor = this.calcularFitnessMejor();
 			this.listaMedias[i] = media;
 			this.listaFitnessMejor[i] = this.fitnessMejor;
 			this.listaFitnessMejorAbsoluto[i] = this.fitnessMejorAbsoluto;
+			if (elitista) {
+				ejecutarEli();
+			}
 		}
 	}
-
 	public void crearPoblacionFuncion1() {
+		this.porcentajeEli = 1;
 		Funcion1 f;
 		for (int i = 0; i < lPoblacion; i++) {
 			f = new Funcion1(this.precision);
@@ -86,15 +76,6 @@ public class AlgoritmoGenetico {
 		}
 		this.lCromosoma = 1;
 	}
-
-	public void crearPoblacion2(double precision) {
-		Funcion1 f;
-		for (int i = 0; i < lPoblacion; i++) {
-			f = new Funcion1(precision);
-			this.poblacion.set(i, f);
-		}
-	}
-
 	public void showPoblacion() {
 		System.out.println("Poblacion:");
 		double[] fenotipo;
@@ -113,15 +94,14 @@ public class AlgoritmoGenetico {
 			System.out.println();
 		}
 	}
-
 	public double calcularFitnessMejor() {
 		double fitnessMejor = 0;
-		double[] fitness;
+		double fitness;
 		
 		for (int i = 0; i < this.lPoblacion; i++) {
-			fitness = this.poblacion.get(i).getFitness();
-			if (fitnessMejor < fitness[0])
-				fitnessMejor = fitness[0];
+			fitness = this.poblacion.get(i).getFitnessTotalCromosoma();
+			if (fitnessMejor < fitness)
+				fitnessMejor = fitness;
 		}
 		
 		if (fitnessMejorAbsoluto < fitnessMejor) 
@@ -129,8 +109,6 @@ public class AlgoritmoGenetico {
 		
 		return fitnessMejor;
 	}
-	
-	
 	public double calcularMediaGeneracion() {
 		double media = 0.00;
 		double sumatorio = 0.00;
@@ -145,7 +123,35 @@ public class AlgoritmoGenetico {
 		
 		return media;
 	}
-
+	
+	public void ejecutarEli() {
+		int numElegidos = (int) Math.round((this.porcentajeEli * this.lPoblacion));
+		ordenar();
+		
+		Cromosoma c;
+		for (int i = 0; i < numElegidos; i++) {
+			c = this.poblacion.get(i).copy();
+			this.poblacion.set((this.lPoblacion - 1) - i, c);
+		}
+		
+		ordenar();
+	}
+	public void ordenar() {
+		Cromosoma c1;
+		Cromosoma c2;
+		for (int i = 0; i < this.lPoblacion - 1; i++) {
+			for (int j = i; j < this.lPoblacion; j++) {
+				if (this.poblacion.get(i).getFitnessTotalCromosoma() <
+						this.poblacion.get(j).getFitnessTotalCromosoma()) {
+				c1 = this.poblacion.get(i).copy();
+				c2 = this.poblacion.get(j).copy();
+				
+				this.poblacion.set(i, c2);
+				this.poblacion.set(j, c1);
+				}
+			}
+		}
+	}
 	public AlgoritmoGenetico copy() {
 		ArrayList<Cromosoma> poblacion = this.poblacion;
 		int lPoblacion = this.lPoblacion;
@@ -155,9 +161,10 @@ public class AlgoritmoGenetico {
 		double porcentajeCruce = this.porcentajeCruce;
 		double porcentajeMutacion = this.porcentajeMutacion;
 		int numeroGeneraciones = this.numeroGeneraciones;
+		boolean elitista = this.elitista;
 
 		AlgoritmoGenetico ag = new AlgoritmoGenetico(lPoblacion, precision, porcentajeCruce, 
-				porcentajeMutacion, numeroGeneraciones);
+				porcentajeMutacion, numeroGeneraciones, elitista);
 
 		ag.setPoblacion(poblacion);
 		ag.setlPoblacion(lPoblacion);
@@ -175,96 +182,79 @@ public class AlgoritmoGenetico {
 	public double getFitnessMejorAbsoluto() {
 		return fitnessMejorAbsoluto;
 	}
-
 	public ArrayList<Cromosoma> getPoblacion() {
 		return poblacion;
 	}
-
 	public void setPoblacion(ArrayList<Cromosoma> poblacion) {
 		this.poblacion = poblacion;
 	}
-
 	public int getlPoblacion() {
 		return lPoblacion;
 	}
-
 	public void setlPoblacion(int lPoblacion) {
 		this.lPoblacion = lPoblacion;
 	}
-
 	public double getPrecision() {
 		return precision;
 	}
-
 	public void setPrecision(double precision) {
 		this.precision = precision;
 	}
-
 	public void setFitnessMejorAbsoluto(double fitnessMejorAbsoluto) {
 		this.fitnessMejorAbsoluto = fitnessMejorAbsoluto;
 	}
-
 	public double getFitnessMejor() {
 		return fitnessMejor;
 	}
-
 	public void setFitnessMejor(double fitnessMejor) {
 		this.fitnessMejor = fitnessMejor;
 	}
-
 	public double[] getListaFitnessMejorAbsoluto() {
 		return listaFitnessMejorAbsoluto;
 	}
-
 	public void setListaFitnessMejorAbsoluto(double[] listaFitnessMejorAbsoluto) {
 		this.listaFitnessMejorAbsoluto = listaFitnessMejorAbsoluto;
 	}
-
 	public double[] getListaFitnessMejor() {
 		return listaFitnessMejor;
 	}
-
 	public void setListaFitnessMejor(double[] listaFitnessMejor) {
 		this.listaFitnessMejor = listaFitnessMejor;
 	}
-	
 	public int getlCromosoma() {
 		return lCromosoma;
 	}
-
 	public void setlCromosoma(int lCromosoma) {
 		this.lCromosoma = lCromosoma;
 	}
-
 	public double getPorcentajeCruce() {
 		return porcentajeCruce;
 	}
-
 	public void setPorcentajeCruce(double porcentajeCruce) {
 		this.porcentajeCruce = porcentajeCruce;
 	}
-
 	public double getPorcentajeMutacion() {
 		return porcentajeMutacion;
 	}
-
 	public void setPorcentajeMutacion(double porcentajeMutacion) {
 		this.porcentajeMutacion = porcentajeMutacion;
 	}
-	
 	public int getNumeroGeneraciones() {
 		return numeroGeneraciones;
 	}
-
 	public void setNumeroGeneraciones(int numeroGeneraciones) {
 		this.numeroGeneraciones = numeroGeneraciones;
 	}
-	
 	public double[] getListaMedias() {
 		return listaMedias;
 	}
-
 	public void setListaMedias(double[] listaMedias) {
 		this.listaMedias = listaMedias;
+	}
+	public boolean isElitista() {
+		return elitista;
+	}
+	public void setElitista(boolean elitista) {
+		this.elitista = elitista;
 	}
 }

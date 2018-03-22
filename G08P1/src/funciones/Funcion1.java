@@ -33,5 +33,6 @@ public class Funcion1 extends Cromosoma {
 				Math.pow(Math.E, (-0.2 * Math.abs(fenotipo[0]))) - 
 				Math.pow(Math.E, Math.cos(2 * Math.PI * fenotipo[0]));
 		this.setFitness(fitness);
+		this.calcularFitnessTotal();
 	}
 }
