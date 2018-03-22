@@ -156,6 +156,9 @@ public class Menu extends JFrame {
 	public void pintarGrafica(Plot2DPanel grafica, double[] x, double[] y) {
 		// define the legend position
 		grafica.addLegend("SOUTH");
+		grafica.setAxisLabel(0, "Generaciones");
+		grafica.setAxisLabel(1, "Fitness");
+
 		// add a line plot to the PlotPanel
 		grafica.addLinePlot("", x, y);		
 		add(grafica, BorderLayout.CENTER);	
