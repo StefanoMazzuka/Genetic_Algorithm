@@ -1,11 +1,11 @@
 package cruce;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import base.AlgoritmoGenetico;
 import base.Cromosoma;
 import base.Gen;
-import base.Poblacion;
 
 public class UnPunto {
 
@@ -18,6 +18,7 @@ public class UnPunto {
 	private ArrayList<Cromosoma> poblacionACruzar;
 	private Gen[] genCruzadoUno;
 	private Gen[] genCruzadoDos;
+	private int numElemACruzar;
 	
 	public UnPunto(double pCruce) {
 		this.pCruce = pCruce;
@@ -34,22 +35,12 @@ public class UnPunto {
 		
 		cualCruza();
 		
-		double intervalo = (1.0 / lGen);
-		double interAcumulado = intervalo;
-		double pe = 0;
 		int pos = 0;
-
-		for (int i = 0; i < this.poblacionACruzar.size(); i +=2) {
-			pe =Math.random();
-			for (int j = 0; j < (lGen) ; j++) {
-
-				if (pe > interAcumulado) {
-					pos++;
-					interAcumulado += intervalo;
-				}
-			}
+		Random r = new Random();
+		
+		for (int i = 0; i < numElemACruzar; i +=2) {
+			pos = r.nextInt(this.lGen);
 			cruzarCromosomas(pos, poblacionACruzar.get(i), poblacionACruzar.get(i + 1));
-			this.showPoblacionACruzar();
 		}
 		
 		poblacionFinal();
@@ -57,40 +48,53 @@ public class UnPunto {
 		ag.setPoblacion(agCopy.getPoblacion());
 	}
 	public void cualCruza() {
+		
 		double pc = 0;
-		int pos = 0;
 		for (int i = 0; i < this.agCopy.getlPoblacion(); i++) {
 			pc = Math.random();
-//			this.individuosACruzar[i] = false;
 			if (pc < pCruce) {
 				this.poblacionACruzar.add(this.poblacion.get(i).copy());
-//				this.individuosACruzar[i] = true;
-//				pos = i;
 			}
 		}
 		
+		this.numElemACruzar = this.poblacionACruzar.size();
+		
 		if (this.poblacionACruzar.size() % 2 != 0) {
 			this.poblacionACruzar.remove(this.poblacion.get(0)); // Era esta linea... el error.
-//			this.individuosACruzar[pos] = false;
+			this.numElemACruzar--;
 		} 
 	}
 	public void cruzarCromosomas(int pos, Cromosoma padreUno, Cromosoma padreDos) {
-		
 		Gen[] padreUGen = padreUno.getGen();
 		Gen[] padreDGen = padreDos.getGen();
 		
 		for (int i = 0; i < this.lCromosoma; i++) {
 			cruzarGenes(i, pos, padreUGen[i].copy(), padreDGen[i].copy());
 		}
-		
+
 		padreUno.setGen(this.genCruzadoUno);
 		padreDos.setGen(this.genCruzadoDos);
 		
-		this.poblacionACruzar.set(padreUno.getId(), padreUno);
-		this.poblacionACruzar.set(padreDos.getId(), padreDos);
-	}
-	public void cruzarGenes(int posGen, int pos, Gen padreUno, Gen padreDos) {
+		padreUno.calcularFenotipo();
+		padreUno.calcularFitness();
 		
+		padreDos.calcularFenotipo();
+		padreDos.calcularFitness();
+		
+		int i = 0;
+		while (i < this.numElemACruzar && this.poblacionACruzar.get(i).getId() != padreUno.getId()) {
+			i++;
+		}
+		
+		this.poblacionACruzar.set(i, padreUno);
+		
+		while (i < this.numElemACruzar && this.poblacionACruzar.get(i).getId() != padreDos.getId()) {
+			i++;
+		}
+		
+		this.poblacionACruzar.set(i, padreDos);
+	}
+	public void cruzarGenes(int posGen, int pos, Gen padreUno, Gen padreDos) {	
 		boolean[] hijoUno = new boolean[lGen];
 		boolean[] hijoDos = new boolean[lGen];
 		boolean[] padreU = padreUno.getAlelos();
@@ -112,19 +116,19 @@ public class UnPunto {
 		this.genCruzadoUno[posGen] = padreUno;
 		this.genCruzadoDos[posGen] = padreDos;
 	}
+	
 	public void poblacionFinal() {
 
-		for (int i = 0; i < this.poblacionACruzar.size(); i++) {
+		for (int i = 0; i < this.numElemACruzar; i++) {
 			this.poblacion.set(this.poblacionACruzar.get(i).getId(), this.poblacionACruzar.get(i));
 		}
-	}
-	
+	}	
 	public void showPoblacionACruzar() {
 		System.out.println("Poblacion A Cruzar:");
 		double[] fenotipo;
 		double[] fitness;
 		boolean[] alelos;
-		for (int i = 0; i < this.poblacionACruzar.size(); i++) {
+		for (int i = 0; i < this.numElemACruzar; i++) {
 			fenotipo = this.poblacionACruzar.get(i).getFenotipo();
 			fitness = this.poblacionACruzar.get(i).getFitness();
 			System.out.println("Fenotipo: " + fenotipo[0] + " Fitness: " + fitness[0]);

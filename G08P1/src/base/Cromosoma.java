@@ -59,6 +59,10 @@ public abstract class Cromosoma {
 		this.fitnessTotalCromosoma = fitnessTotalCromosoma;
 	}
 	
+	public abstract void calcularFenotipo();
+	
+	public abstract void calcularFitness();
+	
 	/*Getters y Setters*/
 	public Gen[] getGen() {
 		return gen;

@@ -32,11 +32,11 @@ public class Menu extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private int tamañoPoblacion;
 	private int numeroGeneraciones;
-	private double porcentageCruce;
-	private double porcentageMutacion;
+	private double porcentajeCruce;
+	private double porcentajeMutacion;
 	private double precision;
-	private Gen genMejor;
 	private double[] generacion;
+	private double[] mejoresFitnessAbsolutos;
 	private double[] mejoresFitness;
 	
 	public Menu() {
@@ -66,9 +66,9 @@ public class Menu extends JFrame {
 		menuPanel.add(tamPob);
 		menuPanel.add(new JLabel("Numero de generaciones:"));
 		menuPanel.add(numGen);
-		menuPanel.add(new JLabel("Porcentage de cruce:"));
+		menuPanel.add(new JLabel("Porcentaje de cruce:"));
 		menuPanel.add(porCruce);
-		menuPanel.add(new JLabel("Porcentage de mutaciones:"));
+		menuPanel.add(new JLabel("Porcentaje de mutaciones:"));
 		menuPanel.add(porMuta);
 		menuPanel.add(new JLabel("Precision:"));
 		menuPanel.add(preci);
@@ -107,8 +107,8 @@ public class Menu extends JFrame {
 
 					tamañoPoblacion = Integer.parseInt(tamPob.getText());
 					numeroGeneraciones = Integer.parseInt(numGen.getText());
-					porcentageCruce = Double.parseDouble(porCruce.getText());
-					porcentageMutacion = Double.parseDouble(porMuta.getText());
+					porcentajeCruce = Double.parseDouble(porCruce.getText());
+					porcentajeMutacion = Double.parseDouble(porMuta.getText());
 					precision = Double.parseDouble(preci.getText());
 					
 					if (eliY.isSelected() == false && eliN.isSelected() == false) {
@@ -120,83 +120,30 @@ public class Menu extends JFrame {
 					}
 					
 					else if (eliY.isSelected() == true && eliN.isSelected() == false) {
-						JOptionPane.showMessageDialog(null, "Opcion elitista con un 2% de la población.");
-						generacion = new double[numeroGeneraciones];
-						mejoresFitness = new double[numeroGeneraciones];
-						
-						Funcion1 funcion1 = new Funcion1(precision);
-						Ruleta ruleta = new Ruleta();
-						UnPunto cruce = new UnPunto(porcentageCruce);
-						Mutacion mutacion = new Mutacion(porcentageMutacion);
-						
-						int posGenMejor = 0;
-						for (int i = 0; i < numeroGeneraciones; i++) {
-							/*Crear la poblacion*/ /*Funciona*/
-//							funcion1.showPoblacion();
-//							funcion1.showFitness();
-							
-//							funcion1.calcularGenMejorEli(0.02);
-//							funcion1.calcularFenotipos();
-//							funcion1.calcularFitness();
-//							funcion1.showPoblacion();
-//							funcion1.showFitness();
-							
-							/*Ejecutar la ruleta*/ /*Funciona*/
-//							ruleta.ejecutarRuleta(funcion1);
-//							ruleta.showSeleccionados();
-//							funcion1.calcularFenotipos();
-//							funcion1.calcularFitness();
-//							funcion1.showPoblacion();
-//							funcion1.showFitness();
-
-							/*Ejecutar el cruce*/  /*Funciona*/
-//							cruce.cruzar(funcion1);
-//							cruce.showCruzados();
-//							funcion1.calcularFenotipos();
-//							funcion1.calcularFitness();
-//							funcion1.showPoblacion();
-//							funcion1.showFitness();
-							
-							/*Ejecutar la mutacion*/ /*Funciona*/
-//							mutacion.mutar(funcion1);
-//							funcion1.calcularFenotipos();
-//							funcion1.calcularFitness();
-//							funcion1.showPoblacion();
-//							funcion1.showFitness();
-							
-//							posGenMejor = funcion1.getPosGenMejor();
-							generacion[i] = i;					
-							mejoresFitness[i] = funcion1.getFitness()[posGenMejor];
-						}
-						
-						grafica.setVisible(false);
-						pintarGrafica(grafica, generacion, mejoresFitness);
+						/*Hacer Elitista*/
 					}
 
 					else if (eliY.isSelected() == false && eliN.isSelected() == true) {
 						
 						generacion = new double[numeroGeneraciones];
+						mejoresFitnessAbsolutos = new double[numeroGeneraciones];
 						mejoresFitness = new double[numeroGeneraciones];
 						
-						AlgoritmoGenetico ag = new AlgoritmoGenetico(tamañoPoblacion, precision);
-						Ruleta r = new Ruleta();
-						UnPunto p = new UnPunto(porcentageCruce);
-						double fitnessMejor;
-						double fitnessMejorAbsoluto;
-						
 						for (int i = 0; i < numeroGeneraciones; i++) {
-							ag.showPoblacion();
-							System.out.println("Fitnes Mejor: " + ag.getFitnessMejor());
-							System.out.println("Fitnes Mejor Absoluto: " + ag.getFitnessMejorAbsoluto());
-							r.ejecutarRuleta(ag);
-							r.showPuntuacion();
-							ag.showPoblacion();
-							p.cruzar(ag);
+							generacion[i] = i;
 						}
+						
+						AlgoritmoGenetico ag = new AlgoritmoGenetico(tamañoPoblacion, precision, porcentajeCruce, 
+								porcentajeMutacion, numeroGeneraciones);
+						ag.ejecutarFuncion1();
+						
+						mejoresFitnessAbsolutos = ag.getListaFitnessMejorAbsoluto();
+						mejoresFitness = ag.getListaFitnessMejor();
 						
 						grafica.setVisible(false);
 						grafica.removeAllPlots();
-						pintarGrafica(grafica, generacion, mejoresFitness);
+						pintarGrafica(grafica, generacion, mejoresFitnessAbsolutos);
+						pintarGrafica(grafica, generacion, mejoresFitness);					
 					}
 				} 
 			}

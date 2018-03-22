@@ -18,7 +18,7 @@ public class Funcion1 extends Cromosoma {
 		this.calcularFitnessTotal();
 	}
 
-	private void calcularFenotipo() {
+	public void calcularFenotipo() {
 		double[] fenotipo = new double[1];
 		fenotipo[0] = this.min + (this.max - this.min) * 
 				this.bin_dec(this.gen[0]) / (Math.pow(2, this.getlGen()) - 1);
