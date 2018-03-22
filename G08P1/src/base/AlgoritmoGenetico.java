@@ -15,8 +15,12 @@ public class AlgoritmoGenetico {
 	private double precision;
 	private double fitnessMejorAbsoluto;
 	private double fitnessMejor;
+	private double media;
 	private double[] listaFitnessMejorAbsoluto;
 	private double[] listaFitnessMejor;
+	private double[] listaMedias;
+	
+
 	private int lCromosoma;
 	private double porcentajeCruce;
 	private double porcentajeMutacion;
@@ -34,6 +38,8 @@ public class AlgoritmoGenetico {
 		Arrays.fill(this.listaFitnessMejorAbsoluto, 0.0);
 		this.listaFitnessMejor = new double[this.numeroGeneraciones];
 		Arrays.fill(this.listaFitnessMejor, 0.0);
+		this.listaMedias = new double[this.numeroGeneraciones];
+		Arrays.fill(this.listaFitnessMejorAbsoluto, 0.0);
 	}
 
 	public void ejecutarFuncion1() {
@@ -63,7 +69,9 @@ public class AlgoritmoGenetico {
 //			System.out.println();
 //			System.out.println("Poblacion Mutada:");
 //			this.showPoblacion();
+			this.media = this.calcularMediaGeneracion();
 			this.fitnessMejor = this.calcularFitnessMejor();
+			this.listaMedias[i] = media;
 			this.listaFitnessMejor[i] = this.fitnessMejor;
 			this.listaFitnessMejorAbsoluto[i] = this.fitnessMejorAbsoluto;
 		}
@@ -120,6 +128,22 @@ public class AlgoritmoGenetico {
 			this.fitnessMejorAbsoluto = fitnessMejor;
 		
 		return fitnessMejor;
+	}
+	
+	
+	public double calcularMediaGeneracion() {
+		double media = 0.00;
+		double sumatorio = 0.00;
+		double[] fitness;
+		
+		for (int i = 0; i < this.lPoblacion; i++) {
+			fitness = this.poblacion.get(i).getFitness();
+			sumatorio += fitness[0];
+		}
+		
+		media = sumatorio / this.lPoblacion;
+		
+		return media;
 	}
 
 	public AlgoritmoGenetico copy() {
@@ -234,5 +258,13 @@ public class AlgoritmoGenetico {
 
 	public void setNumeroGeneraciones(int numeroGeneraciones) {
 		this.numeroGeneraciones = numeroGeneraciones;
+	}
+	
+	public double[] getListaMedias() {
+		return listaMedias;
+	}
+
+	public void setListaMedias(double[] listaMedias) {
+		this.listaMedias = listaMedias;
 	}
 }

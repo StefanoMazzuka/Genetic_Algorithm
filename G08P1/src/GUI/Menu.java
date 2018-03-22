@@ -38,6 +38,7 @@ public class Menu extends JFrame {
 	private double[] generacion;
 	private double[] mejoresFitnessAbsolutos;
 	private double[] mejoresFitness;
+	private double[] listaMedias;
 	
 	public Menu() {
 		JTextField tamPob = new JTextField("100");
@@ -139,11 +140,13 @@ public class Menu extends JFrame {
 						
 						mejoresFitnessAbsolutos = ag.getListaFitnessMejorAbsoluto();
 						mejoresFitness = ag.getListaFitnessMejor();
+						listaMedias = ag.getListaMedias();
 						
 						grafica.setVisible(false);
 						grafica.removeAllPlots();
 						pintarGrafica(grafica, generacion, mejoresFitnessAbsolutos);
-						pintarGrafica(grafica, generacion, mejoresFitness);					
+						pintarGrafica(grafica, generacion, mejoresFitness);
+						pintarGrafica(grafica, generacion, listaMedias);	
 					}
 				} 
 			}
