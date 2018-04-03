@@ -11,8 +11,9 @@ public class Funcion1 extends Cromosoma {
 	public Funcion1(double precision) {
 		this.setPrecision(precision);
 		this.gen = new Gen[1];
-		this.setlGen((int) Math.ceil(Math.log((1 + ((this.max - this.min) / this.getPrecision()))) / Math.log(2)));
-		this.gen[0] = new Gen(this.getlGen());
+		this.lGen = new int[1];
+		this.lGen[0] = (int) Math.ceil(Math.log((1 + ((this.max - this.min) / this.getPrecision()))) / Math.log(2));
+		this.gen[0] = new Gen(this.lGen[0]);
 		this.gen[0].crearAlelos();
 		calcularFitness();
 		this.calcularFitnessTotal();
@@ -21,7 +22,7 @@ public class Funcion1 extends Cromosoma {
 	public void calcularFenotipo() {
 		double[] fenotipo = new double[1];
 		fenotipo[0] = this.min + (this.max - this.min) * 
-				this.bin_dec(this.gen[0]) / (Math.pow(2, this.getlGen()) - 1);
+				this.bin_dec(this.gen[0], 0) / (Math.pow(2, this.lGen[0]) - 1);
 		this.setFenotipo(fenotipo);
 	}
 

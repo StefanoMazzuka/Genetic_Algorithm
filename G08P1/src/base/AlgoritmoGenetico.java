@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import cruce.UnPunto;
 import funciones.Funcion1;
+import funciones.Funcion2;
 import mutacion.Mutacion;
 import seleccion.Ruleta;
 
@@ -47,7 +48,7 @@ public class AlgoritmoGenetico {
 	}
 
 	public void ejecutarFuncion1() {
-		crearPoblacionFuncion1();
+		crearPoblacionFuncion2();
 
 		Ruleta r = new Ruleta();
 		UnPunto p = new UnPunto(this.porcentajeCruce);
@@ -56,7 +57,7 @@ public class AlgoritmoGenetico {
 		if (this.elitista) {
 			this.numElegidosEli = (int) Math.round((this.porcentajeEli * this.lPoblacion));
 			this.poblacionEli = new ArrayList<Cromosoma>(this.numElegidosEli);
-			ordenar();		
+			ordenar();
 			Cromosoma c;
 			for (int i = 0; i < this.numElegidosEli; i++) {
 				c = this.poblacion.get(i).copy();
@@ -71,20 +72,20 @@ public class AlgoritmoGenetico {
 			p.cruzar(this);
 			m.mutar(this);
 			
+			if (this.elitista) {
+				insertarPobEli();
+				seleccionarEli();
+			}	
+			
 			this.media = this.calcularMediaGeneracion();
 			this.fitnessMejor = this.calcularFitnessMejor();
 			this.listaMedias[i] = media;
 			this.listaFitnessMejor[i] = this.fitnessMejor;
-			this.listaFitnessMejorAbsoluto[i] = this.fitnessMejorAbsoluto;
-			
-			if (this.elitista) {
-				insertarPobEli();
-				seleccionarEli();
-			}		
+			this.listaFitnessMejorAbsoluto[i] = this.fitnessMejorAbsoluto;	
 		}
 	}
 	public void crearPoblacionFuncion1() {
-		this.porcentajeEli = 0.2;
+		this.porcentajeEli = 0.02;
 		Funcion1 f;
 		for (int i = 0; i < lPoblacion; i++) {
 			f = new Funcion1(this.precision);
@@ -92,6 +93,16 @@ public class AlgoritmoGenetico {
 			this.poblacion.add(i, f);
 		}
 		this.lCromosoma = 1;
+	}
+	public void crearPoblacionFuncion2() {
+		this.porcentajeEli = 0.02;
+		Funcion2 f;
+		for (int i = 0; i < lPoblacion; i++) {
+			f = new Funcion2(this.precision);
+			f.setId(i);
+			this.poblacion.add(i, f);
+		}
+		this.lCromosoma = 2;
 	}
 	public void showPoblacion() {
 		System.out.println("Poblacion:");
@@ -140,10 +151,7 @@ public class AlgoritmoGenetico {
 		
 		return media;
 	}
-	
-	public void seleccionarEli() {
-		ordenar();
-		
+	public void seleccionarEli() {	
 		Cromosoma c;
 		for (int i = 0; i < this.numElegidosEli; i++) {
 			c = this.poblacion.get(i).copy();
@@ -153,8 +161,6 @@ public class AlgoritmoGenetico {
 		ordenar();
 	}
 	public void insertarPobEli() {
-		ordenar();
-				
 		Cromosoma c;
 		for (int i = 0; i < this.numElegidosEli; i++) {
 			c = this.poblacionEli.get(i).copy();

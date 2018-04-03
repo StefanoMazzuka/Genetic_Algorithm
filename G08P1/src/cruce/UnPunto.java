@@ -12,7 +12,7 @@ public class UnPunto {
 	private AlgoritmoGenetico agCopy;
 	
 	private double pCruce;
-	private int lGen;
+	private int lGen[];
 	private int lCromosoma;
 	private ArrayList<Cromosoma> poblacion;
 	private ArrayList<Cromosoma> poblacionACruzar;
@@ -27,20 +27,16 @@ public class UnPunto {
 
 		this.agCopy = ag.copy();	
 		this.poblacion = this.agCopy.getPoblacion();		
-		this.lGen = this.poblacion.get(0).getlGen();
 		this.lCromosoma = this.agCopy.getlCromosoma();
+		this.lGen = this.poblacion.get(0).getlGen();
 		this.poblacionACruzar = new ArrayList<Cromosoma>();
 		this.genCruzadoUno = new Gen[lCromosoma];
 		this.genCruzadoDos = new Gen[lCromosoma];
 		
 		cualCruza();
 		
-		int pos = 0;
-		Random r = new Random();
-		
-		for (int i = 0; i < numElemACruzar; i +=2) {
-			pos = r.nextInt(this.lGen);
-			cruzarCromosomas(pos, poblacionACruzar.get(i), poblacionACruzar.get(i + 1));
+		for (int i = 0; i < numElemACruzar; i += 2) {
+			cruzarCromosomas(poblacionACruzar.get(i), poblacionACruzar.get(i + 1));
 		}
 		
 		poblacionFinal();
@@ -64,12 +60,16 @@ public class UnPunto {
 			this.numElemACruzar--;
 		} 
 	}
-	public void cruzarCromosomas(int pos, Cromosoma padreUno, Cromosoma padreDos) {
+	public void cruzarCromosomas(Cromosoma padreUno, Cromosoma padreDos) {
 		Gen[] padreUGen = padreUno.getGen();
 		Gen[] padreDGen = padreDos.getGen();
 		
+		int pos = 0;
+		Random r = new Random();
+		
 		for (int i = 0; i < this.lCromosoma; i++) {
-			cruzarGenes(i, pos, padreUGen[i].copy(), padreDGen[i].copy());
+			pos = r.nextInt(this.lGen[i]);
+			cruzarGenes(i, pos, padreUGen[i].copy(), padreDGen[i].copy(), this.lGen[i]);
 		}
 
 		padreUno.setGen(this.genCruzadoUno);
@@ -94,7 +94,7 @@ public class UnPunto {
 		
 		this.poblacionACruzar.set(i, padreDos);
 	}
-	public void cruzarGenes(int posGen, int pos, Gen padreUno, Gen padreDos) {	
+	public void cruzarGenes(int posGen, int pos, Gen padreUno, Gen padreDos, int lGen) {	
 		boolean[] hijoUno = new boolean[lGen];
 		boolean[] hijoDos = new boolean[lGen];
 		boolean[] padreU = padreUno.getAlelos();
@@ -105,7 +105,7 @@ public class UnPunto {
 			hijoDos[i] = padreD[i];
 		}
 
-		for (int j = pos; j < this.lGen; j++) {
+		for (int j = pos; j < lGen; j++) {
 			hijoUno[j] = padreD[j];
 			hijoDos[j] = padreU[j];
 		}		

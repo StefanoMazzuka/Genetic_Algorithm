@@ -8,7 +8,7 @@ public abstract class Cromosoma {
 	public double[] fenotipo;
 	public double[] fitness;
 	public double fitnessTotalCromosoma;
-	public int lGen;
+	public int lGen[];
 	public int id;
 		
 	public Cromosoma() {}
@@ -16,24 +16,26 @@ public abstract class Cromosoma {
 	public Cromosoma(double precision) {
 		this.precision = precision;
 	}
-	protected double bin_dec(Gen gen) {		
+	protected double bin_dec(Gen gen, int pos) {		
 		double dec = 0;
 		boolean[] alelos = gen.getAlelos();
-		for(int i = 0; i < lGen; i++) {
+		for(int i = 0; i < lGen[pos]; i++) {
 			if (alelos[i] == true) dec += Math.pow(2, i); 
 		}
 		
 		return dec; 
 	}
-	public Funcion1 copy() {
-		Gen[] gen = new Gen[1];
-		gen[0] = this.gen[0].copy();
-	
+	public Cromosoma copy() {
+		Gen[] gen = new Gen[this.gen.length];
+		for (int i = 0; i < gen.length; i++) {
+			gen[i] = this.gen[i].copy();
+		}
+
 		double precision = this.precision;
 		double[] fenotipo = this.fenotipo;
 		double[] fitness = this.fitness;
 		double fitnessTotalCromosoma = this.fitnessTotalCromosoma;
-		int lGen = this.lGen;
+		int lGen[] = this.lGen;
 		int id = this.id;
 		
 		Funcion1 f = new Funcion1(this.precision);
@@ -95,11 +97,10 @@ public abstract class Cromosoma {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getlGen() {
+	public int[] getlGen() {
 		return lGen;
 	}
-	public void setlGen(int lGen) {
+	public void setlGen(int[] lGen) {
 		this.lGen = lGen;
 	}
-
 }
