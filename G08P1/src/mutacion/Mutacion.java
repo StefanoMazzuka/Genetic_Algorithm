@@ -22,7 +22,7 @@ public class Mutacion {
 
 		this.agCopy = ag.copy();	
 		this.poblacion = this.agCopy.getPoblacion();		
-//		this.lGen = this.poblacion.get(0).getlGen();
+		this.lGen = this.poblacion.get(0).getlGen();
 		this.lCromosoma = this.agCopy.getlCromosoma();
 		this.lPoblacion = this.agCopy.getlPoblacion();
 
@@ -31,7 +31,6 @@ public class Mutacion {
 		boolean[] a;
 		for (int i = 0; i < this.lPoblacion; i++) {
 			c = this.poblacion.get(i);
-			this.lGen = c.getlGen();
 			g = c.getGen();
 			for (int j = 0; j < this.lCromosoma; j++) {
 				a = g[j].getAlelos();

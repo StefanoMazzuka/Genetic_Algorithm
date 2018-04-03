@@ -59,7 +59,7 @@ public abstract class Cromosoma {
 	}
 	public abstract void calcularFenotipo();
 	public abstract void calcularFitness();
-	
+
 	/*Getters y Setters*/
 	public Gen[] getGen() {
 		return gen;

@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import cruce.UnPunto;
 import funciones.Funcion1;
 import funciones.Funcion2;
+import funciones.Funcion3;
+import funciones.Funcion4;
+import funciones.Funcion5;
 import mutacion.Mutacion;
 import seleccion.Ruleta;
 
@@ -29,9 +32,11 @@ public class AlgoritmoGenetico {
 	private double porcentajeEli;
 	private int numElegidosEli;
 	private ArrayList<Cromosoma> poblacionEli;
-	
+	private int tipoFuncion;
+	private int tipoSeleccion;
+
 	public AlgoritmoGenetico(int lPoblacion, double precision, double porcentajeCruce, 
-			double porcentajeMutacion, int numeroGeneraciones, boolean elitista) {
+			double porcentajeMutacion, int numeroGeneraciones, boolean elitista, int tipoFuncion, int tipoSeleccion) {
 		this.lPoblacion = lPoblacion;
 		this.poblacion = new ArrayList<Cromosoma>(this.lPoblacion);
 		this.precision = precision;
@@ -45,10 +50,17 @@ public class AlgoritmoGenetico {
 		this.listaMedias = new double[this.numeroGeneraciones];
 		Arrays.fill(this.listaFitnessMejorAbsoluto, 0.0);
 		this.elitista = elitista;
+		this.tipoFuncion = tipoFuncion;
+		this.tipoSeleccion = tipoSeleccion;
 	}
 
-	public void ejecutarFuncion1() {
-		crearPoblacionFuncion2();
+	public void ejecutar() {
+		
+		if (this.tipoFuncion == 0) crearPoblacionFuncion1();
+		else if (this.tipoFuncion == 1) crearPoblacionFuncion2();
+		else if (this.tipoFuncion == 2) crearPoblacionFuncion3();
+		else if (this.tipoFuncion == 3) crearPoblacionFuncion4();
+		else if (this.tipoFuncion == 4) crearPoblacionFuncion5();
 
 		Ruleta r = new Ruleta();
 		UnPunto p = new UnPunto(this.porcentajeCruce);
@@ -65,7 +77,10 @@ public class AlgoritmoGenetico {
 			}			
 			ordenar();
 		}
-			
+				
+		this.fitnessMejor = this.calcularFitnessMejor();
+		desplazamiento();
+		
 		for (int i = 0; i < this.numeroGeneraciones; i++) {
 
 			r.ejecutarRuleta(this);
@@ -99,6 +114,36 @@ public class AlgoritmoGenetico {
 		Funcion2 f;
 		for (int i = 0; i < lPoblacion; i++) {
 			f = new Funcion2(this.precision);
+			f.setId(i);
+			this.poblacion.add(i, f);
+		}
+		this.lCromosoma = 2;
+	}
+	public void crearPoblacionFuncion3() {
+		this.porcentajeEli = 0.02;
+		Funcion3 f;
+		for (int i = 0; i < lPoblacion; i++) {
+			f = new Funcion3(this.precision);
+			f.setId(i);
+			this.poblacion.add(i, f);
+		}
+		this.lCromosoma = 2;
+	}
+	public void crearPoblacionFuncion4() {
+		this.porcentajeEli = 0.02;
+		Funcion4 f;
+		for (int i = 0; i < lPoblacion; i++) {
+			f = new Funcion4(this.precision);
+			f.setId(i);
+			this.poblacion.add(i, f);
+		}
+		this.lCromosoma = 2;
+	}
+	public void crearPoblacionFuncion5() {
+		this.porcentajeEli = 0.02;
+		Funcion5 f;
+		for (int i = 0; i < lPoblacion; i++) {
+			f = new Funcion5(this.precision);
 			f.setId(i);
 			this.poblacion.add(i, f);
 		}
@@ -195,9 +240,11 @@ public class AlgoritmoGenetico {
 		double porcentajeMutacion = this.porcentajeMutacion;
 		int numeroGeneraciones = this.numeroGeneraciones;
 		boolean elitista = this.elitista;
+		int tipoFuncion = this.tipoFuncion;
+		int tipoSeleccion = this.tipoSeleccion;
 
 		AlgoritmoGenetico ag = new AlgoritmoGenetico(lPoblacion, precision, porcentajeCruce, 
-				porcentajeMutacion, numeroGeneraciones, elitista);
+				porcentajeMutacion, numeroGeneraciones, elitista, tipoFuncion, tipoSeleccion);
 
 		ag.setPoblacion(poblacion);
 		ag.setlPoblacion(lPoblacion);
@@ -207,10 +254,23 @@ public class AlgoritmoGenetico {
 		ag.setPorcentajeCruce(porcentajeCruce);
 		ag.setPorcentajeMutacion(porcentajeMutacion);
 		ag.setNumeroGeneraciones(numeroGeneraciones);
+		ag.setTipoFuncion(tipoFuncion);
+		ag.setTipoSeleccion(tipoSeleccion);
 
 		return ag;
 	}
-
+	public void desplazamiento() {
+		double fitnessDesplazados[] = new double[this.lPoblacion];
+		double fitnessMejor = this.fitnessMejor * 1.05;
+		for (int i = 0; i < this.lPoblacion; i++) {
+			fitnessDesplazados = this.poblacion.get(i).getFitness();
+			for (int j = 0; j < this.lCromosoma; j++) {
+				fitnessDesplazados[j] = fitnessMejor - fitnessDesplazados[j];
+			}
+			this.poblacion.get(i).setFitness(fitnessDesplazados);
+		}
+	}
+	
 	/*Getters and Setters*/
 	public double getFitnessMejorAbsoluto() {
 		return fitnessMejorAbsoluto;
@@ -289,5 +349,12 @@ public class AlgoritmoGenetico {
 	}
 	public void setElitista(boolean elitista) {
 		this.elitista = elitista;
+	}
+
+	public void setTipoFuncion(int tipoFuncion) {
+		this.tipoFuncion = tipoFuncion;
+	}
+	public void setTipoSeleccion(int tipoSeleccion) {
+		this.tipoSeleccion = tipoSeleccion;
 	}
 }
