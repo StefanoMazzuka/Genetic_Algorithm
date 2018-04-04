@@ -72,7 +72,7 @@ public class Estocastico extends Seleccion {
 			pobSeleccionada.add(pob.get(k - 1).copy());
 		}
 		
-		
+		ag.setPoblacion(pobSeleccionada);
 		
 	}
 
