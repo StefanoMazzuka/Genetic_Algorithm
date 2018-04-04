@@ -6,12 +6,14 @@ import java.util.Random;
 import base.AlgoritmoGenetico;
 import base.Cromosoma;
 
-public class Ruleta {	
+public class Ruleta extends Seleccion {	
 
 	private double[] puntuacion;
 	private double fitnessTotalPoblacion;
 	
-	public void ejecutarRuleta(AlgoritmoGenetico ag) {
+	@Override
+	public void ejecutar(AlgoritmoGenetico ag) {
+		// TODO Auto-generated method stub
 
 		this.puntuacion = new double[ag.getlPoblacion()];
 		this.fitnessTotalPoblacion = 0;
@@ -50,4 +52,6 @@ public class Ruleta {
 			System.out.println(this.puntuacion[i]);
 		}
 	}
+	
+	
 }
