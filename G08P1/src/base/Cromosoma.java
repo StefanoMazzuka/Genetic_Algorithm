@@ -1,7 +1,5 @@
 package base;
 
-import funciones.Funcion1;
-
 public abstract class Cromosoma {
 	public Gen[] gen;
 	public double precision;
@@ -25,29 +23,7 @@ public abstract class Cromosoma {
 		
 		return dec; 
 	}
-	public Cromosoma copy() {
-		Gen[] gen = new Gen[this.gen.length];
-		for (int i = 0; i < gen.length; i++) {
-			gen[i] = this.gen[i].copy();
-		}
-
-		double precision = this.precision;
-		double[] fenotipo = this.fenotipo;
-		double fitness = this.fitness;
-		int lGen[] = this.lGen;
-		int id = this.id;
-		
-		Funcion1 f = new Funcion1(this.precision);
-		
-		f.setGen(gen);
-		f.setPrecision(precision);
-		f.setFenotipo(fenotipo);
-		f.setFitness(fitness);
-		f.setlGen(lGen);
-		f.setId(id);
-		
-		return f;
-	}
+	public abstract Cromosoma copy();
 	public abstract void calcularFenotipo();
 	public abstract void calcularFitness();
 

@@ -50,4 +50,27 @@ public class Funcion5 extends Cromosoma {
 
 		this.setFitness(fitness);
 	}
+	public Cromosoma copy() {
+		Gen[] gen = new Gen[this.gen.length];
+		for (int i = 0; i < gen.length; i++) {
+			gen[i] = this.gen[i].copy();
+		}
+
+		double precision = this.precision;
+		double[] fenotipo = this.fenotipo;
+		double fitness = this.fitness;
+		int lGen[] = this.lGen;
+		int id = this.id;
+		
+		Cromosoma f = new Funcion5(this.precision);
+		
+		f.setGen(gen);
+		f.setPrecision(precision);
+		f.setFenotipo(fenotipo);
+		f.setFitness(fitness);
+		f.setlGen(lGen);
+		f.setId(id);
+		
+		return f;
+	}
 }

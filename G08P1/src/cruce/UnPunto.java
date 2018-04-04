@@ -116,7 +116,6 @@ public class UnPunto {
 		this.genCruzadoUno[posGen] = padreUno;
 		this.genCruzadoDos[posGen] = padreDos;
 	}
-	
 	public void poblacionFinal() {
 
 		for (int i = 0; i < this.numElemACruzar; i++) {

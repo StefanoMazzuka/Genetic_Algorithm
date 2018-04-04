@@ -37,17 +37,40 @@ public class Funcion4 extends Cromosoma {
 		double fitness;
 
 		int sum0 = 0;
-		for (int j = 1; j < 5; j++) {
-			sum0 += j * Math.cos((j + 1) * fenotipo[0] + j);
+		for (int i = 1; i < 5; i++) {
+			sum0 += i * Math.cos((i + 1) * fenotipo[0] + i);
 		}
 
 		int sum1 = 0;
-		for (int j = 1; j < 5; j++) {
-			sum1 += j * Math.cos((j + 1) * fenotipo[1] + j);
+		for (int i = 1; i < 5; i++) {
+			sum1 += i * Math.cos((i + 1) * fenotipo[1] + i);
 		}
 
 		fitness = sum0 * sum1;
 
 		this.setFitness(fitness);
+	}
+	public Cromosoma copy() {
+		Gen[] gen = new Gen[this.gen.length];
+		for (int i = 0; i < gen.length; i++) {
+			gen[i] = this.gen[i].copy();
+		}
+
+		double precision = this.precision;
+		double[] fenotipo = this.fenotipo;
+		double fitness = this.fitness;
+		int lGen[] = this.lGen;
+		int id = this.id;
+		
+		Cromosoma f = new Funcion4(this.precision);
+		
+		f.setGen(gen);
+		f.setPrecision(precision);
+		f.setFenotipo(fenotipo);
+		f.setFitness(fitness);
+		f.setlGen(lGen);
+		f.setId(id);
+		
+		return f;
 	}
 }

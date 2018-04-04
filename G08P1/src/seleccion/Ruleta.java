@@ -48,7 +48,6 @@ public class Ruleta extends Seleccion {
 	
 		ag.setPoblacion(pobSeleccionada);
 	}
-	
 	private void desplazamiento(ArrayList<Cromosoma> pob) {
 		double fitnessMejor = 0;
 		for (int i = 0; i < pob.size(); i++) {

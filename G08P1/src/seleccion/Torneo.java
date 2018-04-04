@@ -58,10 +58,6 @@ public class Torneo extends Seleccion {
 			 * Seteamos la poblacion orginal
 			 */
 			ag.setPoblacion(pobSeleccionada);
-
-		}
-		
-		
+		}	
 	}
-
 }

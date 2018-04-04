@@ -10,9 +10,7 @@ public class Estocastico extends Seleccion {
 
 	private double[] puntuacion;
 	private double fitnessTotalPoblacion;
-	
-	
-	
+
 	@Override
 	public void ejecutar(AlgoritmoGenetico ag) {
 		// TODO Auto-generated method stub
@@ -73,7 +71,5 @@ public class Estocastico extends Seleccion {
 		}
 		
 		ag.setPoblacion(pobSeleccionada);
-		
 	}
-
 }

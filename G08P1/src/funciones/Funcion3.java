@@ -39,8 +39,31 @@ public class Funcion3 extends Cromosoma {
 		double fitness;
 
 		fitness = 21.5 + fenotipo[0] * Math.sin(4 * Math.PI * fenotipo[0]) + 
-				fenotipo[1] * Math.sin(20 + Math.PI * fenotipo[1]);
+				fenotipo[1] * Math.sin(20 * Math.PI * fenotipo[1]);
 
 		this.setFitness(fitness);
+	}
+	public Cromosoma copy() {
+		Gen[] gen = new Gen[this.gen.length];
+		for (int i = 0; i < gen.length; i++) {
+			gen[i] = this.gen[i].copy();
+		}
+
+		double precision = this.precision;
+		double[] fenotipo = this.fenotipo;
+		double fitness = this.fitness;
+		int lGen[] = this.lGen;
+		int id = this.id;
+		
+		Cromosoma f = new Funcion3(this.precision);
+		
+		f.setGen(gen);
+		f.setPrecision(precision);
+		f.setFenotipo(fenotipo);
+		f.setFitness(fitness);
+		f.setlGen(lGen);
+		f.setId(id);
+		
+		return f;
 	}
 }
