@@ -6,7 +6,7 @@ public abstract class Cromosoma {
 	public Gen[] gen;
 	public double precision;
 	public double[] fenotipo;
-	public double[] fitness;
+	public double fitness;
 	public double fitnessTotalCromosoma;
 	public int lGen[];
 	public int id;
@@ -33,8 +33,7 @@ public abstract class Cromosoma {
 
 		double precision = this.precision;
 		double[] fenotipo = this.fenotipo;
-		double[] fitness = this.fitness;
-		double fitnessTotalCromosoma = this.fitnessTotalCromosoma;
+		double fitness = this.fitness;
 		int lGen[] = this.lGen;
 		int id = this.id;
 		
@@ -44,18 +43,10 @@ public abstract class Cromosoma {
 		f.setPrecision(precision);
 		f.setFenotipo(fenotipo);
 		f.setFitness(fitness);
-		f.setFitnessTotalCromosoma(fitnessTotalCromosoma);
 		f.setlGen(lGen);
 		f.setId(id);
 		
 		return f;
-	}
-	public void calcularFitnessTotal() {
-		double fitnessTotalCromosoma = 0;
-		for (int i = 0; i < this.fitness.length; i++) {
-			fitnessTotalCromosoma += this.fitness[i];
-		}
-		this.fitnessTotalCromosoma = fitnessTotalCromosoma;
 	}
 	public abstract void calcularFenotipo();
 	public abstract void calcularFitness();
@@ -67,10 +58,10 @@ public abstract class Cromosoma {
 	public void setGen(Gen[] gen) {
 		this.gen = gen;
 	}
-	public double[] getFitness() {
+	public double getFitness() {
 		return fitness;
 	}
-	public void setFitness(double[] fitness) {
+	public void setFitness(double fitness) {
 		this.fitness = fitness;
 	}
 	public double[] getFenotipo() {
@@ -79,12 +70,6 @@ public abstract class Cromosoma {
 	public void setFenotipo(double[] fenotipo) {
 		this.fenotipo = fenotipo;
 	}
-	public double getFitnessTotalCromosoma() {
-		return fitnessTotalCromosoma;
-	}
-	public void setFitnessTotalCromosoma(double fitnessTotalCromosoma) {
-		this.fitnessTotalCromosoma = fitnessTotalCromosoma;
-	}	
 	public double getPrecision() {
 		return precision;
 	}

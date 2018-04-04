@@ -122,24 +122,6 @@ public class UnPunto {
 		for (int i = 0; i < this.numElemACruzar; i++) {
 			this.poblacion.set(this.poblacionACruzar.get(i).getId(), this.poblacionACruzar.get(i));
 		}
-	}	
-	public void showPoblacionACruzar() {
-		System.out.println("Poblacion A Cruzar:");
-		double[] fenotipo;
-		double[] fitness;
-		boolean[] alelos;
-		for (int i = 0; i < this.numElemACruzar; i++) {
-			fenotipo = this.poblacionACruzar.get(i).getFenotipo();
-			fitness = this.poblacionACruzar.get(i).getFitness();
-			System.out.println("Fenotipo: " + fenotipo[0] + " Fitness: " + fitness[0]);
-			
-			alelos = this.poblacionACruzar.get(i).gen[0].getAlelos();
-			for (int j = 0; j < alelos.length; j++) {
-				if (alelos[j]) System.out.print(1);
-				else System.out.print(0);
-			}
-			System.out.println();
-		}
 	}
 }
 

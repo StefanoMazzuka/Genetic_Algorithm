@@ -79,7 +79,6 @@ public class AlgoritmoGenetico {
 		}
 				
 		this.fitnessMejor = this.calcularFitnessMejor();
-		desplazamiento();
 		
 		for (int i = 0; i < this.numeroGeneraciones; i++) {
 
@@ -149,35 +148,17 @@ public class AlgoritmoGenetico {
 		}
 		this.lCromosoma = 2;
 	}
-	public void showPoblacion() {
-		System.out.println("Poblacion:");
-		double[] fenotipo;
-		double[] fitness;
-		boolean[] alelos;
-		for (int i = 0; i < lPoblacion; i++) {
-			fenotipo = this.poblacion.get(i).getFenotipo();
-			fitness = this.poblacion.get(i).getFitness();
-			System.out.println("Fenotipo: " + fenotipo[0] + " Fitness: " + fitness[0]);
-
-			alelos = this.poblacion.get(i).gen[0].getAlelos();
-			for (int j = 0; j < alelos.length; j++) {
-				if (alelos[j]) System.out.print(1);
-				else System.out.print(0);
-			}
-			System.out.println();
-		}
-	}
 	public double calcularFitnessMejor() {
 		double fitnessMejor = 0;
 		double fitness;
 		
 		for (int i = 0; i < this.lPoblacion; i++) {
-			fitness = this.poblacion.get(i).getFitnessTotalCromosoma();
+			fitness = this.poblacion.get(i).getFitness();
 			if (fitnessMejor < fitness)
 				fitnessMejor = fitness;
 		}
 		
-		if (fitnessMejorAbsoluto < fitnessMejor) 
+		if (fitnessMejorAbsoluto < fitnessMejor)
 			this.fitnessMejorAbsoluto = fitnessMejor;
 		
 		return fitnessMejor;
@@ -185,11 +166,11 @@ public class AlgoritmoGenetico {
 	public double calcularMediaGeneracion() {
 		double media = 0.00;
 		double sumatorio = 0.00;
-		double[] fitness;
+		double fitness;
 		
 		for (int i = 0; i < this.lPoblacion; i++) {
 			fitness = this.poblacion.get(i).getFitness();
-			sumatorio += fitness[0];
+			sumatorio += fitness;
 		}
 		
 		media = sumatorio / this.lPoblacion;
@@ -219,8 +200,8 @@ public class AlgoritmoGenetico {
 		Cromosoma c2;
 		for (int i = 0; i < this.lPoblacion - 1; i++) {
 			for (int j = i; j < this.lPoblacion; j++) {
-				if (this.poblacion.get(i).getFitnessTotalCromosoma() <
-						this.poblacion.get(j).getFitnessTotalCromosoma()) {
+				if (this.poblacion.get(i).getFitness() <
+						this.poblacion.get(j).getFitness()) {
 				c1 = this.poblacion.get(i).copy();
 				c2 = this.poblacion.get(j).copy();
 				
@@ -258,17 +239,6 @@ public class AlgoritmoGenetico {
 		ag.setTipoSeleccion(tipoSeleccion);
 
 		return ag;
-	}
-	public void desplazamiento() {
-		double fitnessDesplazados[] = new double[this.lPoblacion];
-		double fitnessMejor = this.fitnessMejor * 1.05;
-		for (int i = 0; i < this.lPoblacion; i++) {
-			fitnessDesplazados = this.poblacion.get(i).getFitness();
-			for (int j = 0; j < this.lCromosoma; j++) {
-				fitnessDesplazados[j] = fitnessMejor - fitnessDesplazados[j];
-			}
-			this.poblacion.get(i).setFitness(fitnessDesplazados);
-		}
 	}
 	
 	/*Getters and Setters*/
@@ -350,7 +320,6 @@ public class AlgoritmoGenetico {
 	public void setElitista(boolean elitista) {
 		this.elitista = elitista;
 	}
-
 	public void setTipoFuncion(int tipoFuncion) {
 		this.tipoFuncion = tipoFuncion;
 	}

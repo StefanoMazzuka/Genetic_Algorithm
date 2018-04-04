@@ -18,27 +18,18 @@ public class Gen {
 			else this.alelos[i] = false;
 		}
 	}
-
-	public void crearAlelos() {
-
-	}
-	
 	public boolean[] getAlelos() {
 		return alelos;
 	}
-
 	public void setAlelos(boolean[] alelos) {
 		this.alelos = alelos;
 	}
-	
 	public double getLgen() {
 		return lgen;
 	}
-
 	public void setLgen(int lgen) {
 		this.lgen = lgen;
 	}
-	
 	public Gen copy() {
 		boolean[] alelos = this.alelos;
 		Gen g = new Gen(this.lgen);

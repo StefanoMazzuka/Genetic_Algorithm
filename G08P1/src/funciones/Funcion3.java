@@ -14,19 +14,15 @@ public class Funcion3 extends Cromosoma {
 		this.setPrecision(precision);
 		this.gen = new Gen[2];
 		this.lGen = new int[2];
-		
+
 		this.lGen[0] = (int) Math.ceil(Math.log((1 + ((this.max0 - this.min0) / this.getPrecision()))) / Math.log(2));
 		this.gen[0] = new Gen(this.lGen[0]);
-		this.gen[0].crearAlelos();
-		
+
 		this.lGen[1] = (int) Math.ceil(Math.log((1 + ((this.max1 - this.min1) / this.getPrecision()))) / Math.log(2));
 		this.gen[1] = new Gen(this.lGen[1]);
-		this.gen[1].crearAlelos();
-		
-		calcularFitness();
-		this.calcularFitnessTotal();
-	}
 
+		calcularFitness();
+	}
 	public void calcularFenotipo() {
 		double[] fenotipo = new double[2];
 
@@ -37,18 +33,14 @@ public class Funcion3 extends Cromosoma {
 
 		this.setFenotipo(fenotipo);
 	}
-
 	public void calcularFitness() {
 		calcularFenotipo();
 		double[] fenotipo = this.getFenotipo();
-		double[] fitness = new double[2];
+		double fitness;
 
-		for (int i = 0; i < 2; i++) {
-			fitness[i] = 21.5 + fenotipo[0] * Math.sin(4 * Math.PI * fenotipo[0]) + 
-					fenotipo[1] * Math.sin(20 + Math.PI * fenotipo[1]);
-		}
+		fitness = 21.5 + fenotipo[0] * Math.sin(4 * Math.PI * fenotipo[0]) + 
+				fenotipo[1] * Math.sin(20 + Math.PI * fenotipo[1]);
 
 		this.setFitness(fitness);
-		this.calcularFitnessTotal();
 	}
 }
