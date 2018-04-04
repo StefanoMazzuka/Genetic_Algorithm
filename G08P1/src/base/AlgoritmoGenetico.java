@@ -68,7 +68,7 @@ public class AlgoritmoGenetico {
 				 * Creo una factoria de seleccion para elegir el metodo de seleccion que eloja el combo
 				 */
 		FactoriaSeleccion fs = new FactoriaSeleccion();
-		Seleccion r = fs.getSeleccion("Ruleta");
+		Seleccion r = fs.getSeleccion("Estocastico");
 		
 		UnPunto p = new UnPunto(this.porcentajeCruce);
 		Mutacion m = new Mutacion(this.porcentajeMutacion);

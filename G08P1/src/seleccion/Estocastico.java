@@ -25,6 +25,8 @@ public class Estocastico extends Seleccion {
 		double N = pob.size();
 		double distMarcas = 1 / N;
 		double primeraMarca = 0.0;
+		double[] arrayDeMarcas = new double[pob.size()];
+		double probAcumulada;
 		
 		Random r = new Random();
 		
@@ -46,10 +48,31 @@ public class Estocastico extends Seleccion {
 		 * Calculamos el empiece de la primera marca
 		 */
 		primeraMarca = r.nextDouble() % distMarcas;
+		arrayDeMarcas[0] = primeraMarca;
 		
 		/*
-		 * Calculamos el resto de elementos que pertenecen a la poblacion
+		 * Calculamos el resto de marcas
 		 */
+		for (int i = 1; i < pob.size(); i++) {
+			arrayDeMarcas[i] = arrayDeMarcas[i-1] + distMarcas;
+		}
+		
+		/*
+		 * Comprobamos a que elemento pertenece la marca y lo añadimos a la poblacion
+		 */
+		probAcumulada = this.puntuacion[0];
+		
+		for (int j = 0; j < arrayDeMarcas.length; j++) {
+			probAcumulada = this.puntuacion[0];
+			int k = 1;
+			while (k < ag.getlPoblacion() && arrayDeMarcas[j] > probAcumulada) {
+				probAcumulada += this.puntuacion[k];
+				k++;
+			}
+			pobSeleccionada.add(pob.get(k - 1).copy());
+		}
+		
+		
 		
 	}
 

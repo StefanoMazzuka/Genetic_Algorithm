@@ -8,6 +8,8 @@ public class FactoriaSeleccion {
 			return new Ruleta();
 		case "Torneo":
 			return new Torneo();
+		case "Estocastico":
+			return new Estocastico();
 		default:
 			break;
 		}
