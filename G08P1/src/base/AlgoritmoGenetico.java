@@ -9,7 +9,9 @@ import funciones.Funcion3;
 import funciones.Funcion4;
 import funciones.Funcion5;
 import mutacion.Mutacion;
+import seleccion.FactoriaSeleccion;
 import seleccion.Ruleta;
+import seleccion.Seleccion;
 
 import java.util.Arrays;
 
@@ -62,7 +64,12 @@ public class AlgoritmoGenetico {
 		else if (this.tipoFuncion == 3) crearPoblacionFuncion4();
 		else if (this.tipoFuncion == 4) crearPoblacionFuncion5();
 
-		Ruleta r = new Ruleta();
+		/*
+				 * Creo una factoria de seleccion para elegir el metodo de seleccion que eloja el combo
+				 */
+		FactoriaSeleccion fs = new FactoriaSeleccion();
+		Seleccion r = fs.getSeleccion("Ruleta");
+		
 		UnPunto p = new UnPunto(this.porcentajeCruce);
 		Mutacion m = new Mutacion(this.porcentajeMutacion);
 		
@@ -82,7 +89,7 @@ public class AlgoritmoGenetico {
 		
 		for (int i = 0; i < this.numeroGeneraciones; i++) {
 
-			r.ejecutarRuleta(this);
+			r.ejecutar(this);
 			p.cruzar(this);
 			m.mutar(this);
 			
