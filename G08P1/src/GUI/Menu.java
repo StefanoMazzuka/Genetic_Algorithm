@@ -76,7 +76,7 @@ public class Menu extends JFrame {
 		menuPanel.add(porMuta);
 		menuPanel.add(new JLabel("Precisión:"));
 		menuPanel.add(preci);
-		menuPanel.add(new JLabel("Elitísmo:"));
+		menuPanel.add(new JLabel("Elitismo:"));
 		menuPanel.add(checkBoxPanel);
 		menuPanel.add(empty);
 		menuPanel.add(ok);
