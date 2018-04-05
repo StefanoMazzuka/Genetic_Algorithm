@@ -7,27 +7,27 @@ public class Funcion5 extends Cromosoma {
 
 	private double min = 0;
 	private double max = Math.PI;
+	private int n = 2;
 
 	public Funcion5(double precision) {
 		this.setPrecision(precision);
-		this.gen = new Gen[2];
-		this.lGen = new int[2];
+		this.gen = new Gen[n];
+		this.lGen = new int[n];
 
-		this.lGen[0] = (int) Math.ceil(Math.log((1 + ((this.max - this.min) / this.getPrecision()))) / Math.log(2));
-		this.gen[0] = new Gen(this.lGen[0]);
-
-		this.lGen[1] = (int) Math.ceil(Math.log((1 + ((this.max - this.min) / this.getPrecision()))) / Math.log(2));
-		this.gen[1] = new Gen(this.lGen[1]);
-
+		for (int i = 0; i < n; i++) {
+			this.lGen[i] = (int) Math.ceil(Math.log((1 + ((this.max - this.min) / this.getPrecision()))) / Math.log(2));
+			this.gen[i] = new Gen(this.lGen[i]);
+		}
+		
 		calcularFitness();
 	}
 	public void calcularFenotipo() {
-		double[] fenotipo = new double[2];
+		double[] fenotipo = new double[n];
 
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < n; i++) {
 			fenotipo[i] = this.min + (this.max - this.min) * 
-					this.bin_dec(this.gen[i], 0) / (Math.pow(2, this.lGen[0]) - 1);
-		}		
+					this.bin_dec(this.gen[i], 0) / (Math.pow(2, this.lGen[i]) - 1);
+		}
 
 		this.setFenotipo(fenotipo);
 	}
@@ -35,19 +35,15 @@ public class Funcion5 extends Cromosoma {
 		calcularFenotipo();
 		double[] fenotipo = this.getFenotipo();
 		double fitness;
-
-		int sum0 = 0;
-		for (int j = 1; j < 5; j++) {
-			sum0 += j * Math.cos((j + 1) * fenotipo[0] + j);
+		
+		double sum = 0.0;
+		for (int i = 1; i <= n; i++) {
+			sum += Math.sin(fenotipo[i - 1]) * Math.pow(Math.sin(((i + 1) * 
+					Math.pow(fenotipo[i - 1], 2)) / Math.PI), 20);
 		}
-
-		int sum1 = 0;
-		for (int j = 1; j < 5; j++) {
-			sum1 += j * Math.cos((j + 1) * fenotipo[1] + j);
-		}
-
-		fitness = sum0 * sum1;
-
+				
+		fitness = -sum;
+		
 		this.setFitness(fitness);
 	}
 	public Cromosoma copy() {
@@ -72,5 +68,8 @@ public class Funcion5 extends Cromosoma {
 		f.setId(id);
 		
 		return f;
+	}
+	public int getN() {
+		return this.n;
 	}
 }

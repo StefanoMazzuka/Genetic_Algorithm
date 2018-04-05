@@ -25,8 +25,8 @@ public class Funcion2 extends Cromosoma {
 
 		for (int i = 0; i < 2; i++) {
 			fenotipo[i] = this.min + (this.max - this.min) * 
-					this.bin_dec(this.gen[i], i) / (Math.pow(2, this.lGen[0]) - 1);
-		}		
+					this.bin_dec(this.gen[i], i) / (Math.pow(2, this.lGen[i]) - 1);
+		}
 
 		this.setFenotipo(fenotipo);
 	}

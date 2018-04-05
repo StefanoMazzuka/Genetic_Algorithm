@@ -40,7 +40,7 @@ public class Funcion3 extends Cromosoma {
 
 		fitness = 21.5 + fenotipo[0] * Math.sin(4 * Math.PI * fenotipo[0]) + 
 				fenotipo[1] * Math.sin(20 * Math.PI * fenotipo[1]);
-
+		
 		this.setFitness(fitness);
 	}
 	public Cromosoma copy() {

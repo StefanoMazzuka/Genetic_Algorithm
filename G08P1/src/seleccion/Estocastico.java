@@ -9,12 +9,14 @@ import base.Cromosoma;
 public class Estocastico extends Seleccion {
 
 	private double[] puntuacion;
+	private double[] fitnessDesplazado;
 	private double fitnessTotalPoblacion;
 
 	@Override
 	public void ejecutar(AlgoritmoGenetico ag) {
 		// TODO Auto-generated method stub
 		this.puntuacion = new double[ag.getlPoblacion()];
+		this.fitnessDesplazado = new double[ag.getlPoblacion()];
 		this.fitnessTotalPoblacion = 0;
 		
 		ArrayList<Cromosoma> pob = ag.getPoblacion();
@@ -71,5 +73,16 @@ public class Estocastico extends Seleccion {
 		}
 		
 		ag.setPoblacion(pobSeleccionada);
+	}
+	public void desplazamiento(ArrayList<Cromosoma> pob) {
+		double fitnessMejor = 0;
+		for (int i = 0; i < pob.size(); i++) {
+			if(fitnessMejor < pob.get(i).getFitness())
+				fitnessMejor = pob.get(i).getFitness();
+		}
+		fitnessMejor = fitnessMejor * 1.05;
+		for (int i = 0; i < pob.size(); i++) {
+			this.fitnessDesplazado[i] = fitnessMejor - pob.get(i).getFitness();
+		}
 	}
 }

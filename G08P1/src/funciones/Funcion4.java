@@ -26,7 +26,7 @@ public class Funcion4 extends Cromosoma {
 
 		for (int i = 0; i < 2; i++) {
 			fenotipo[i] = this.min + (this.max - this.min) * 
-					this.bin_dec(this.gen[i], 0) / (Math.pow(2, this.lGen[0]) - 1);
+					this.bin_dec(this.gen[i], 0) / (Math.pow(2, this.lGen[i]) - 1);
 		}		
 
 		this.setFenotipo(fenotipo);
@@ -36,14 +36,14 @@ public class Funcion4 extends Cromosoma {
 		double[] fenotipo = this.getFenotipo();
 		double fitness;
 
-		int sum0 = 0;
-		for (int i = 1; i < 5; i++) {
-			sum0 += i * Math.cos((i + 1) * fenotipo[0] + i);
+		double sum0 = 0.0;
+		for (int i = 1; i < 6; i++) {
+			sum0 += (i * Math.cos((i + 1) * fenotipo[0] + i));
 		}
 
-		int sum1 = 0;
-		for (int i = 1; i < 5; i++) {
-			sum1 += i * Math.cos((i + 1) * fenotipo[1] + i);
+		double sum1 = 0.0;
+		for (int i = 1; i < 6; i++) {
+			sum1 += (i * Math.cos((i + 1) * fenotipo[1] + i));
 		}
 
 		fitness = sum0 * sum1;

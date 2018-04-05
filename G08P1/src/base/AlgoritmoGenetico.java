@@ -35,6 +35,7 @@ public class AlgoritmoGenetico {
 	private ArrayList<Cromosoma> poblacionEli;
 	private int tipoFuncion;
 	private int tipoSeleccion;
+	private boolean maximizar;
 
 	public AlgoritmoGenetico(int lPoblacion, double precision, double porcentajeCruce, 
 			double porcentajeMutacion, int numeroGeneraciones, boolean elitista, int tipoFuncion, int tipoSeleccion) {
@@ -56,7 +57,7 @@ public class AlgoritmoGenetico {
 	}
 
 	public void ejecutar() {
-		
+
 		if (this.tipoFuncion == 0) crearPoblacionFuncion1();
 		else if (this.tipoFuncion == 1) crearPoblacionFuncion2();
 		else if (this.tipoFuncion == 2) crearPoblacionFuncion3();
@@ -68,10 +69,10 @@ public class AlgoritmoGenetico {
 		Seleccion r = FactoriaSeleccion.getSeleccion("Ruleta");
 		if (this.tipoSeleccion == 1) r = FactoriaSeleccion.getSeleccion("Torneo");
 		else if (this.tipoSeleccion == 2) r = FactoriaSeleccion.getSeleccion("Estocastico");
-		
+
 		UnPunto p = new UnPunto(this.porcentajeCruce);
 		Mutacion m = new Mutacion(this.porcentajeMutacion);
-		
+
 		if (this.elitista) {
 			this.numElegidosEli = (int) Math.round((this.porcentajeEli * this.lPoblacion));
 			this.poblacionEli = new ArrayList<Cromosoma>(this.numElegidosEli);
@@ -83,20 +84,18 @@ public class AlgoritmoGenetico {
 			}			
 			ordenar();
 		}
-				
-		this.fitnessMejor = this.calcularFitnessMejor();
-		
+
 		for (int i = 0; i < this.numeroGeneraciones; i++) {
 
 			r.ejecutar(this);
 			p.cruzar(this);
 			m.mutar(this);
-			
+
 			if (this.elitista) {
 				insertarPobEli();
 				seleccionarEli();
 			}	
-			
+
 			this.media = this.calcularMediaGeneracion();
 			this.fitnessMejor = this.calcularFitnessMejor();
 			this.listaMedias[i] = media;
@@ -105,6 +104,7 @@ public class AlgoritmoGenetico {
 		}
 	}
 	public void crearPoblacionFuncion1() {
+		this.maximizar = true;
 		this.porcentajeEli = 0.02;
 		Funcion1 f;
 		for (int i = 0; i < lPoblacion; i++) {
@@ -115,6 +115,7 @@ public class AlgoritmoGenetico {
 		this.lCromosoma = 1;
 	}
 	public void crearPoblacionFuncion2() {
+		this.maximizar = false;
 		this.porcentajeEli = 0.02;
 		Funcion2 f;
 		for (int i = 0; i < lPoblacion; i++) {
@@ -125,6 +126,7 @@ public class AlgoritmoGenetico {
 		this.lCromosoma = 2;
 	}
 	public void crearPoblacionFuncion3() {
+		this.maximizar = true;
 		this.porcentajeEli = 0.02;
 		Funcion3 f;
 		for (int i = 0; i < lPoblacion; i++) {
@@ -146,26 +148,41 @@ public class AlgoritmoGenetico {
 	}
 	public void crearPoblacionFuncion5() {
 		this.porcentajeEli = 0.02;
-		Funcion5 f;
+		Funcion5 f = null;
 		for (int i = 0; i < lPoblacion; i++) {
 			f = new Funcion5(this.precision);
 			f.setId(i);
 			this.poblacion.add(i, f);
 		}
-		this.lCromosoma = 2;
+		this.lCromosoma = f.getN();
 	}
 	public double calcularFitnessMejor() {
-		double fitnessMejor = 0;
+		double fitnessMejor;
 		double fitness;
-		
-		for (int i = 0; i < this.lPoblacion; i++) {
-			fitness = this.poblacion.get(i).getFitness();
-			if (fitnessMejor < fitness)
-				fitnessMejor = fitness;
-		}
-		
-		if (fitnessMejorAbsoluto < fitnessMejor)
+
+		if (this.maximizar) {
+			fitnessMejor = 0;
+			for (int i = 0; i < this.lPoblacion; i++) {
+				fitness = this.poblacion.get(i).getFitness();
+				if (fitnessMejor < fitness)
+					fitnessMejor = fitness;
+			}		
+			
+			if (fitnessMejorAbsoluto < fitnessMejor)
 			this.fitnessMejorAbsoluto = fitnessMejor;
+		}
+
+		else {
+			fitnessMejor = 99999999;
+			for (int i = 0; i < this.lPoblacion; i++) {
+				fitness = this.poblacion.get(i).getFitness();
+				if (fitnessMejor > fitness)
+					fitnessMejor = fitness;
+			}		
+			
+			if (fitnessMejorAbsoluto > fitnessMejor)
+			this.fitnessMejorAbsoluto = fitnessMejor;
+		}
 		
 		return fitnessMejor;
 	}
@@ -173,14 +190,14 @@ public class AlgoritmoGenetico {
 		double media = 0.00;
 		double sumatorio = 0.00;
 		double fitness;
-		
+
 		for (int i = 0; i < this.lPoblacion; i++) {
 			fitness = this.poblacion.get(i).getFitness();
 			sumatorio += fitness;
 		}
-		
+
 		media = sumatorio / this.lPoblacion;
-		
+
 		return media;
 	}
 	public void seleccionarEli() {	
@@ -189,7 +206,7 @@ public class AlgoritmoGenetico {
 			c = this.poblacion.get(i).copy();
 			this.poblacionEli.set(i, c);
 		}
-		
+
 		ordenar();
 	}
 	public void insertarPobEli() {
@@ -198,21 +215,39 @@ public class AlgoritmoGenetico {
 			c = this.poblacionEli.get(i).copy();
 			this.poblacion.set((this.lPoblacion - 1) - i, c);
 		}
-		
+
 		ordenar();
 	}
 	public void ordenar() {
 		Cromosoma c1;
 		Cromosoma c2;
-		for (int i = 0; i < this.lPoblacion - 1; i++) {
-			for (int j = i; j < this.lPoblacion; j++) {
-				if (this.poblacion.get(i).getFitness() <
-						this.poblacion.get(j).getFitness()) {
-				c1 = this.poblacion.get(i).copy();
-				c2 = this.poblacion.get(j).copy();
-				
-				this.poblacion.set(i, c2);
-				this.poblacion.set(j, c1);
+		
+		if(this.maximizar) {
+			for (int i = 0; i < this.lPoblacion - 1; i++) {
+				for (int j = i; j < this.lPoblacion; j++) {
+					if (this.poblacion.get(i).getFitness() <
+							this.poblacion.get(j).getFitness()) {
+						c1 = this.poblacion.get(i).copy();
+						c2 = this.poblacion.get(j).copy();
+
+						this.poblacion.set(i, c2);
+						this.poblacion.set(j, c1);
+					}
+				}
+			}
+		}
+
+		else {
+			for (int i = 0; i < this.lPoblacion - 1; i++) {
+				for (int j = i; j < this.lPoblacion; j++) {
+					if (this.poblacion.get(i).getFitness() >
+							this.poblacion.get(j).getFitness()) {
+						c1 = this.poblacion.get(i).copy();
+						c2 = this.poblacion.get(j).copy();
+
+						this.poblacion.set(i, c2);
+						this.poblacion.set(j, c1);
+					}
 				}
 			}
 		}
@@ -246,7 +281,7 @@ public class AlgoritmoGenetico {
 
 		return ag;
 	}
-	
+
 	/*Getters and Setters*/
 	public double getFitnessMejorAbsoluto() {
 		return fitnessMejorAbsoluto;
